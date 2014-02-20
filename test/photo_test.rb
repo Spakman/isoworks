@@ -3,13 +3,13 @@ require_relative "test_helper"
 describe Photo do
   describe "attributes" do
     describe "when a photo has the associated attributes" do
-      let(:filepath) { "test/fixtures/photos/kayak_yellowcraigs.jpg" }
-      let(:title) { "Yellowcraigs" }
-      let(:description) { "I had waanted to go to Fidra since I was wee. It's pretty cool!" }
+      let(:fixture) { PHOTO_FIXTURES[:kayak] }
+      let(:filepath) { fixture[:filepath] }
+      let(:title) { fixture[:title] }
+      let(:description) { fixture[:description] }
       let(:tags) { [ "north berwick", "kayaking", "east lothian", "scotland" ] }
 
       before do
-        write_extended_attributes(filepath)
         @photo = Photo.new(filepath)
       end
 
@@ -27,18 +27,19 @@ describe Photo do
     end
 
     describe "when a photo doesn't have associated attributes" do
+      before do
+        @photo = Photo.new("test/fixtures/photos/no_metadata.jpg")
+      end
+
       it "returns nil for the title" do
-        @photo = Photo.new("test/fixtures/photos/stenny_tip_balance.jpg")
         assert_nil @photo.title
       end
 
       it "returns nil for the description" do
-        @photo = Photo.new("test/fixtures/photos/stenny_tip_balance.jpg")
         assert_nil @photo.description
       end
 
       it "returns an empty array for the tags" do
-        @photo = Photo.new("test/fixtures/photos/stenny_tip_balance.jpg")
         assert_empty @photo.tags
       end
     end
