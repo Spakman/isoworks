@@ -1,14 +1,13 @@
 require_relative "test_helper"
 
 describe PhotoList do
-  describe "creating a list from a given directory" do
-    before do
-      @photo_list = PhotoList.new("test/fixtures/photos")
-    end
+  before do
+    @photos = PHOTO_FIXTURES.each_value.map { |fixture| Photo.new(fixture[:filepath]) }
+  end
 
-    it "creates a list of Photos from a given directory" do
-      assert_equal 7, @photo_list.photos.size
-      assert_equal [ Photo ], @photo_list.photos.map(&:class).uniq
+  describe "creating a photolist from an array of photos" do
+    it "sets the photos attribute to be the passed photos when no tag is specified" do
+      assert_equal @photos, PhotoList.new(@photos).photos
     end
   end
 end
