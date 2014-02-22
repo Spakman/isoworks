@@ -7,7 +7,7 @@ PHOTO_FIXTURES = {
   },
   tip_balance: {
     filepath: "test/fixtures/photos/stenny_tip_balance.jpg",
-    title: "Nice tip balace by Stenny",
+    title: "Nice tip balance by Stenny",
     tags: %w( scotland edinburgh stenny juggling )
   },
   ghost: {
@@ -17,17 +17,17 @@ PHOTO_FIXTURES = {
   },
   px3s: {
     filepath: "test/fixtures/photos/mark_px3s.jpg",
-    title: "Nice tip balace by Stenny",
+    title: "Finally got myself some PX3s",
     tags: [ "me", "juggling", "edinburgh", "scotland", "self portrait" ]
   },
   bunker: {
     filepath: "test/fixtures/photos/mike_roc_bunker.jpg",
-    title: "Nice tip balace by Stenny",
+    title: "Garvald ROC bunker",
     tags: [ "mike", "garvald", "scotland", "east lothian" ]
   },
   angel_bay: {
     filepath: "test/fixtures/photos/stenny_juggling_angel_bay.jpg",
-    title: "Nice tip balace by Stenny",
+    title: "Stenny at Angel Bay",
     tags: [ "stenny", "juggling", "wales", "angel bay" ]
   }
 }

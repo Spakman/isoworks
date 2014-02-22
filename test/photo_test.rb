@@ -44,4 +44,10 @@ describe Photo do
       end
     end
   end
+
+  describe "equality" do
+    it "is the same as another instance of Photo when the filepath is the same" do
+      assert_equal Photo.new(PHOTO_FIXTURES[:px3s][:filepath]), Photo.new(PHOTO_FIXTURES[:px3s][:filepath])
+    end
+  end
 end
