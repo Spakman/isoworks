@@ -8,6 +8,7 @@ describe Photo do
     let(:description) { fixture.description }
     let(:tags) { fixture.tags }
     let(:added_at) { fixture.added_at }
+    let(:uuid) { fixture.uuid }
 
     describe "when a photo has the associated attributes" do
       let(:fixture) { Fixtures.photos[:kayak] }
@@ -38,6 +39,10 @@ describe Photo do
 
       it "has an added_at Time" do
         assert_equal added_at, @photo.added_at
+      end
+
+      it "has a UUID" do
+        assert_equal uuid, @photo.uuid
       end
     end
 
@@ -70,6 +75,10 @@ describe Photo do
 
       it "has an added_at Time" do
         assert_equal added_at, @photo.added_at
+      end
+
+      it "has a UUID" do
+        assert_equal uuid, @photo.uuid
       end
     end
   end

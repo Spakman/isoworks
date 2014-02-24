@@ -1,12 +1,13 @@
 require "ffi-xattr"
 
 class Photo
-  attr_reader :title, :description, :tags, :filepath, :filename, :added_at
+  attr_reader :uuid, :title, :description, :tags, :filepath, :filename, :added_at
 
   def initialize(filepath)
     @filepath = filepath
     @filename = File.basename(filepath)
     xattr = Xattr.new(filepath)
+    @uuid = xattr["user.isoworks.uuid"]
     @title = xattr["user.isoworks.title"]
     @description = xattr["user.isoworks.description"]
     xattr_tags = xattr["user.isoworks.tags"]
