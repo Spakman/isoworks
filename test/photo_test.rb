@@ -2,12 +2,14 @@ require_relative "test_helper"
 
 describe Photo do
   describe "attributes" do
+    let(:filepath) { fixture.filepath }
+    let(:filename) { File.basename(filepath) }
+    let(:title) { fixture.title }
+    let(:description) { fixture.description }
+    let(:tags) { fixture.tags }
+
     describe "when a photo has the associated attributes" do
-      let(:fixture) { PHOTO_FIXTURES[:kayak] }
-      let(:filepath) { fixture[:filepath] }
-      let(:title) { fixture[:title] }
-      let(:description) { fixture[:description] }
-      let(:tags) { [ "north berwick", "kayaking", "east lothian", "scotland" ] }
+      let(:fixture) { Fixtures.photos[:kayak] }
 
       before do
         @photo = Photo.new(filepath)
@@ -24,9 +26,19 @@ describe Photo do
       it "has tags" do
         assert_equal tags, @photo.tags
       end
+
+      it "has a filename" do
+        assert_equal filename, @photo.filename
+      end
+
+      it "has a filepath" do
+        assert_equal filepath, @photo.filepath
+      end
     end
 
     describe "when a photo doesn't have associated attributes" do
+      let(:fixture) { Fixtures.photos[:no_metadata] }
+
       before do
         @photo = Photo.new("test/fixtures/photos/no_metadata.jpg")
       end
@@ -42,12 +54,20 @@ describe Photo do
       it "returns an empty array for the tags" do
         assert_empty @photo.tags
       end
+
+      it "has a filename" do
+        assert_equal filename, @photo.filename
+      end
+
+      it "has a filepath" do
+        assert_equal filepath, @photo.filepath
+      end
     end
   end
 
   describe "equality" do
     it "is the same as another instance of Photo when the filepath is the same" do
-      assert_equal Photo.new(PHOTO_FIXTURES[:px3s][:filepath]), Photo.new(PHOTO_FIXTURES[:px3s][:filepath])
+      assert_equal Photo.new(Fixtures.photos[:px3s].filepath), Photo.new(Fixtures.photos[:px3s].filepath)
     end
   end
 end
