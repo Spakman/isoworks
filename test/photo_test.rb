@@ -7,6 +7,7 @@ describe Photo do
     let(:title) { fixture.title }
     let(:description) { fixture.description }
     let(:tags) { fixture.tags }
+    let(:added_at) { fixture.added_at }
 
     describe "when a photo has the associated attributes" do
       let(:fixture) { Fixtures.photos[:kayak] }
@@ -33,6 +34,10 @@ describe Photo do
 
       it "has a filepath" do
         assert_equal filepath, @photo.filepath
+      end
+
+      it "has an added_at Time" do
+        assert_equal added_at, @photo.added_at
       end
     end
 
@@ -61,6 +66,10 @@ describe Photo do
 
       it "has a filepath" do
         assert_equal filepath, @photo.filepath
+      end
+
+      it "has an added_at Time" do
+        assert_equal added_at, @photo.added_at
       end
     end
   end
