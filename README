@@ -1,0 +1,34 @@
+Isoworks
+===
+
+A simple, fast and database-less Sinatra application for hosting and browsing
+photos and videos on the web.
+
+Isoworks was borne out of frustration at the latest user interface changes to
+Flickr. It is designed to import and then be fast and easy to browse photos
+that have been tagged and edited on Flickr.
+
+
+Requirements
+===
+
+* Ruby (tested using MRI 2.1.1)
+* A filesystem that has support for extended file attributes[1]
+
+
+Status
+===
+
+Initial stages of development, not yet ready for use.
+
+
+License
+===
+
+Isoworks is released under the MIT License[2].
+
+Copyright (©) 2014 Mark Somerville <mark@crocodile.is>
+
+
+1 - http://en.wikipedia.org/wiki/Extended_file_attributes
+2 - http://opensource.org/licenses/MIT
