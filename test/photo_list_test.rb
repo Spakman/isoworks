@@ -1,22 +1,39 @@
 require_relative "test_helper"
 
 describe PhotoList do
+  let(:photolist) { PhotoList.new(Fixtures.photos.values) }
+  let(:sorted_fixtures) do
+    photolist.photos.sort_by { |photo| photo.added_at }
+  end
+
   describe "creating a photolist from an array of photos" do
     it "order the passed photos by the added_at time and sets them to the photos attribute" do
-      sorted_fixtures = Fixtures.photos.values.sort_by { |photo| photo.added_at }
-      assert_equal sorted_fixtures, PhotoList.new(Fixtures.photos.values).photos
+      assert_equal sorted_fixtures, photolist.photos
     end
   end
 
-  describe "filtering" do
-    it "returns a new PhotoList containing only the photos with the passed tag, sorted by added_at date" do
-      sorted_fixtures = Fixtures.juggling_photos.values.sort_by { |photo| photo.added_at }
-      assert_equal sorted_fixtures, PhotoList.new(Fixtures.photos.values).with_tag("juggling").photos
+  describe "#with_tag" do
+    let(:tag) { "juggling" }
+    let(:sorted_fixtures) do
+      Fixtures.juggling_photos.values.sort_by { |photo| photo.added_at }
+    end
+
+    it "returns a new PhotoList containing only photos with the passed tag" do
+      photolist.with_tag(tag).photos.each do |photo|
+        assert photo.tags.include?(tag), "#{photo} doesn't include tag '#{tag}'"
+      end
+    end
+
+    it "sortes the photolist by added_at date" do
+      assert_equal sorted_fixtures, photolist.with_tag(tag).photos
     end
   end
 
-  it "returns the associated photo when given a UUID" do
-    photo = Fixtures.photos[:kayak]
-    assert_equal photo, PhotoList.new(Fixtures.photos.values).find(photo.uuid)
+  describe "#find" do
+    let(:photo) { Fixtures.photos[:kayak] }
+
+    it "returns the associated photo when given a UUID" do
+      assert_equal photo, photolist.find(photo.uuid)
+    end
   end
 end
