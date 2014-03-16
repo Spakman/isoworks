@@ -11,7 +11,7 @@ module PhotoHelpers
     if photo.tags.size > 0
       list = '<ul id="tags">'
       photo.tags.each do |tag|
-        list << "<li>#{tag}</li>"
+        list << %Q{<li>#{tag_link(tag)}</li>}
       end
       list << "</ul>"
     else
@@ -25,5 +25,9 @@ module PhotoHelpers
     else
       ""
     end
+  end
+
+  def tag_link(tag)
+    %Q{<a href="/tags/#{ERB::Util.u(tag)}">#{tag}</a>}
   end
 end

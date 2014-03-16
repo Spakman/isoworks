@@ -16,11 +16,17 @@ describe PhotoHelpers do
   describe "a photo with metadata" do
     describe "#tag_list" do
       it 'returns an unordered list with an id of "tags"' do
-        assert_match(/^<ul id="tags">.+<\/ul>$/, tag_list(photo))
+        assert_match %r{^<ul id="tags">.+</ul>$}, tag_list(photo)
       end
 
       it "has a list item for each tag" do
         assert_equal photo.tags.length, tag_list(photo).scan(/<li>/).length
+      end
+
+      it "provides percent escaped links to the tags" do
+        photo.tags.each do |tag|
+          assert_includes tag_list(photo), %Q{<a href="/tags/#{tag.gsub(" ", "%20")}"}
+        end
       end
     end
 
@@ -42,6 +48,15 @@ describe PhotoHelpers do
 
     it "returns an empty string for the description" do
       assert_equal "", description(photo)
+    end
+  end
+
+  describe "#tag_link" do
+    let(:tag) { "two words" }
+    let(:link) { %Q{<a href="/tags/#{tag.gsub(" ", "%20")}">#{tag}</a>} }
+
+    it "percent escapes the href" do
+      assert_equal link, tag_link(tag)
     end
   end
 end

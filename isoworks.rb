@@ -29,5 +29,10 @@ class Isoworks < Sinatra::Base
     erb :photo
   end
 
+  get "/tags/:tag" do |tag|
+    @photo_list = @all_photos.with_tag(tag)
+    erb :photo_list
+  end
+
   run! if app_file == $0
 end
