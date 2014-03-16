@@ -1,9 +1,12 @@
 require "sinatra"
+require "erubis"
 require_relative "lib/photo"
 require_relative "lib/photo_list"
 require_relative "lib/photo_helpers"
 
-PHOTOS_DIRECTORY = "#{File.dirname(__FILE__)}/public/photos/"
+PHOTOS_DIRECTORY = "#{File.dirname(__FILE__)}/public/photos/originals/"
+
+set :erb, :escape_html => true
 
 class Isoworks < Sinatra::Base
   include PhotoHelpers
@@ -19,6 +22,11 @@ class Isoworks < Sinatra::Base
   get "/" do
     @photo_list = @all_photos
     erb :photo_list
+  end
+
+  get "/:uuid" do |uuid|
+    @photo = @all_photos.find(uuid)
+    erb :photo
   end
 
   run! if app_file == $0

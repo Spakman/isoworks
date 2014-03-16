@@ -8,4 +8,8 @@ class PhotoList
   def with_tag(tag)
     PhotoList.new(@photos.find_all { |photo| photo.tags.include?(tag) })
   end
+
+  def find(uuid)
+    @photos.find { |photo| photo.uuid == uuid }
+  end
 end

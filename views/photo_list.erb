@@ -31,7 +31,7 @@ h2 {
   <% @photo_list.photos.each do |photo| %>
  --><li>
       <h2><%= photo.title %></h2>
-      <img src="<%= small_photo_url(photo) %>" alt="<%= photo.title %>" />
+      <a href="/<%= photo.uuid %>"><img src="<%= small_photo_url(photo) %>" alt="<%= photo.title %>" /></a>
     </li><!--
   <% end %>
 --></ul>

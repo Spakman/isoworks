@@ -9,7 +9,7 @@ module Fixtures
       filepath: "test/fixtures/photos/kayak_yellowcraigs.jpg",
       uuid: SecureRandom.uuid,
       title: "Yellowcraigs",
-      description: "I had waanted to go to Fidra since I was wee. It's pretty cool!",
+      description: "I had wanted to go to Fidra since I was wee.\n\nIt's pretty cool!",
       tags: [ "north berwick", "kayaking", "east lothian", "scotland" ],
       added_at: Time.now
     },

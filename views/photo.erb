@@ -1,0 +1,7 @@
+<h1><%= @photo.title %></h1>
+
+<img src="<%= large_photo_url(@photo) %>" alt="<%= @photo.title %>" />
+
+<%= description(@photo) %>
+
+<%= tag_list(@photo) %>

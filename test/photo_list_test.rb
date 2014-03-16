@@ -14,4 +14,9 @@ describe PhotoList do
       assert_equal sorted_fixtures, PhotoList.new(Fixtures.photos.values).with_tag("juggling").photos
     end
   end
+
+  it "returns the associated photo when given a UUID" do
+    photo = Fixtures.photos[:kayak]
+    assert_equal photo, PhotoList.new(Fixtures.photos.values).find(photo.uuid)
+  end
 end
