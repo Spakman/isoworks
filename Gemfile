@@ -1,3 +1,7 @@
 gem "ffi-xattr"
-gem "rack-test"
 gem "sinatra"
+
+group :test do
+  gem "minitest", "~> 5.0"
+  gem "rack-test"
+end

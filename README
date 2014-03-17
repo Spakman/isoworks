@@ -22,6 +22,12 @@ Status
 Initial stages of development, not yet ready for use.
 
 
+Installing the development version
+===
+
+  gem install --file Gemfile --ignore-dependencies
+
+
 License
 ===
 
