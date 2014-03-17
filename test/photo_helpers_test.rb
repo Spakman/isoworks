@@ -3,60 +3,96 @@ require_relative "test_helper"
 describe PhotoHelpers do
   include PhotoHelpers
 
-  let(:photo) { Fixtures.photos[:kayak] }
+  let(:photo) { Fixtures.photos[:html_unsafe] }
+  let(:no_metadata_photo) { Fixtures.photos[:no_metadata] }
+  let(:unsafe_text) { "safe > unsafe" }
+  let(:html_escaped_text) { "safe &gt; unsafe" }
+  let(:url_escaped_text) { "safe%20%3E%20unsafe" }
 
-  it "returns a string of the small photo URL" do
-    assert_equal "/photos/small/#{photo.filename}", small_photo_url(photo)
-  end
+  describe "photos URL methods" do
+    let(:photo) { OpenStruct.new(filename: unsafe_text) }
 
-  it "returns a string of the large photo URL" do
-    assert_equal "/photos/large/#{photo.filename}", large_photo_url(photo)
-  end
-
-  describe "a photo with metadata" do
-    describe "#tag_list" do
-      it 'returns an unordered list with an id of "tags"' do
-        assert_match %r{^<ul id="tags">.+</ul>$}, tag_list(photo)
-      end
-
-      it "has a list item for each tag" do
-        assert_equal photo.tags.length, tag_list(photo).scan(/<li>/).length
-      end
-
-      it "provides percent escaped links to the tags" do
-        photo.tags.each do |tag|
-          assert_includes tag_list(photo), %Q{<a href="/tags/#{tag.gsub(" ", "%20")}"}
-        end
-      end
+    it "returns a string of the URL escaped small photo URL" do
+      assert_equal "/photos/small/#{url_escaped_text}", small_photo_url(photo)
     end
 
-    describe "#description" do
-      let(:html_description) { "<p>I had wanted to go to Fidra since I was wee.</p><p>It's pretty cool!</p>" }
-
-      it "returns the description, replaces double newlines with paragraph tags" do
-        assert_equal html_description, description(photo)
-      end
+    it "returns a string of the URL escaped large photo URL" do
+      assert_equal "/photos/large/#{url_escaped_text}", large_photo_url(photo)
     end
   end
 
-  describe "a photo with no metadata" do
-    let(:photo) { Fixtures.photos[:no_metadata] }
-
-    it "returns an empty string for the tag list" do
-      assert_equal "", tag_list(photo)
+  describe "#tag_list" do
+    it 'returns an unordered list with an id of "tags"' do
+      assert_match %r{^<ul id="tags">.+</ul>$}, tag_list(photo)
     end
 
-    it "returns an empty string for the description" do
-      assert_equal "", description(photo)
+    it "has a list item for each tag" do
+      assert_equal photo.tags.length, tag_list(photo).scan(/<li>/).length
+    end
+
+    it "provides percent escaped links to the tags" do
+      assert_match %r{href=".+#{url_escaped_text}"}, tag_list(photo)
+    end
+
+    it "HTML escapes the unsafe tag" do
+      assert_includes tag_list(photo), html_escaped_text
+    end
+
+    it "returns an empty string for the tag list when the photo has no metadata" do
+      assert_equal "", tag_list(no_metadata_photo)
+    end
+  end
+
+  describe "#description" do
+    let(:html_description) { "<p>A paragraph</p><p>HTML to escape: safe > unsafe</p>" }
+    let(:paragraph_formatted_regex) { %r{^<p>.+?</p><p>.+?</p>$} }
+
+    it "returns the description without newlines" do
+      refute_includes "\n\n", description(photo)
+    end
+
+    it "returns the description with paragraph breaks" do
+      assert_match paragraph_formatted_regex, description(photo)
+    end
+
+    it "HTML escapes the text" do
+      assert_includes description(photo), html_escaped_text
+    end
+
+    it "returns an empty string for the description when the photo has no metadata" do
+      assert_equal "", description(no_metadata_photo)
     end
   end
 
   describe "#tag_link" do
-    let(:tag) { "two words" }
-    let(:link) { %Q{<a href="/tags/#{tag.gsub(" ", "%20")}">#{tag}</a>} }
+    let(:escaped_link) do
+      %Q{<a href="/tags/#{url_escaped_text}">#{html_escaped_text}</a>}
+    end
 
-    it "percent escapes the href" do
-      assert_equal link, tag_link(tag)
+    it "percent escapes the href and HTML escapes the link text" do
+      assert_equal escaped_link, tag_link(unsafe_text)
+    end
+  end
+
+  describe "image methods" do
+    let(:escaped_img) {
+      %Q{<img src="#{src}" alt="#{html_escaped_text}" />}
+    }
+
+    describe "#large_image" do
+      let(:src) { large_photo_url(photo) }
+
+      it "percent escapes the src and HTML escapes the alt text" do
+        assert_equal escaped_img, large_image(photo)
+      end
+    end
+
+    describe "#small_image" do
+      let(:src) { small_photo_url(photo) }
+
+      it "percent escapes the src and HTML escapes the alt text" do
+        assert_equal escaped_img, small_image(photo)
+      end
     end
   end
 end

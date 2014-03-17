@@ -9,7 +9,7 @@ module Fixtures
       filepath: "test/fixtures/photos/kayak_yellowcraigs.jpg",
       uuid: SecureRandom.uuid,
       title: "Yellowcraigs",
-      description: "I had wanted to go to Fidra since I was wee.\n\nIt's pretty cool!",
+      description: "I had wanted to go to Fidra since I was wee.\n\nIt is rather cool!",
       tags: [ "north berwick", "kayaking", "east lothian", "scotland" ],
       added_at: Time.now
     },
@@ -20,11 +20,12 @@ module Fixtures
       tags: %w( scotland edinburgh stenny juggling ),
       added_at: Time.now - 100
     },
-    ghost: {
+    html_unsafe: {
       filepath: "test/fixtures/photos/mark_ghost.jpg",
       uuid: SecureRandom.uuid,
-      title: "Wooooo",
-      tags: [ "me", "scotland", "east lothian", "seacliff" ],
+      title: "safe > unsafe",
+      description: "A paragraph\n\nHTML to escape: safe > unsafe",
+      tags: [ "me", "scotland", "east lothian", "seacliff", "safe > unsafe" ],
       added_at: Time.now - 200
     },
     px3s: {
