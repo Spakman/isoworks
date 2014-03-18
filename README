@@ -5,14 +5,14 @@ A simple, fast and database-less Sinatra application for hosting and browsing
 photos and videos on the web.
 
 Isoworks was borne out of frustration at the latest user interface changes to
-Flickr. It is designed to import and then be fast and easy to browse photos
-that have been tagged and edited on Flickr.
+Flickr. It is designed to import and then be fast and easy to browse media that
+has been tagged and edited on Flickr.
 
 
 Requirements
 ===
 
-* Ruby (tested using MRI 2.1.1)
+* Ruby >= 2.1.0
 * A filesystem that has support for extended file attributes[1]
 
 
