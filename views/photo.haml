@@ -1,0 +1,7 @@
+%article
+  %h1<
+    &= @photo.title
+
+  %img{ src: url(large_photo_path(@photo)), alt: @photo.title }
+  = paragraphize(@photo.description)
+  = tag_list(@photo)

@@ -3,6 +3,17 @@ require_relative "test_helper"
 describe Isoworks do
   include PhotoHelpers
 
+  let(:url_helper_output) { "http://example.org" }
+  let(:html_escaped_title) { "safe &gt; unsafe" }
+
+  it "sets the HAML format to HTML5" do
+    assert_equal :html5, Isoworks.settings.haml[:format]
+  end
+
+  it "sets the HAML attr_wrapper to a double quote for nicer HTML output" do
+    assert_equal ?", Isoworks.settings.haml[:attr_wrapper]
+  end
+
   describe "the unfiltered photo list page" do
     let(:photos) { Fixtures.photos.values }
     let(:number_of_photos) { photos.size }
@@ -23,24 +34,45 @@ describe Isoworks do
       assert_equal number_of_photos, last_response.body.scan(/<li>/).size
     end
 
-    it "displays a small image of each of the photos" do
+    it "HTML escapes the title in the list item <h2>s" do
+      assert_includes last_response.body, "<h2>#{html_escaped_title}</h2>"
+    end
+
+    it "links to each of the photo pages using the #url helper" do
       photos.each do |photo|
-        assert_includes last_response.body, small_image(photo)
+        a_element = %Q{<a href="#{url_helper_output}#{photo_page_path(photo)}">}
+        assert_includes last_response.body, a_element
       end
     end
 
-    it "links to each of the photo pages" do
+    it "displays a small image of each of the photos using the #url helper" do
       photos.each do |photo|
-        assert_match %r{<a href="/#{photo.uuid}">}, last_response.body
+        src = %Q{src="#{url_helper_output}#{small_photo_path(photo)}"}
+        assert_includes last_response.body, src
+      end
+    end
+
+    it "populates the alt attribute with the HTML escaped photo title" do
+      photos.each do |photo|
+        alt_text = %Q{alt="#{h(photo.title)}"}
+        assert_includes last_response.body, alt_text
       end
     end
   end
 
   describe "a photo page" do
-    let(:photo) { Fixtures.photos[:kayak] }
+    let(:photo) { Fixtures.photos[:html_unsafe] }
+    let(:escaped_title) { "<title>#{html_escaped_title}</title>" }
+    let(:escaped_h1) { "<h1>#{html_escaped_title}</h1>" }
+    let(:escaped_alt) do
+      %r{<img alt="#{html_escaped_title}"}
+    end
+    let(:url_helper_src) do
+      %r{<img alt=".+?" src="#{url_helper_output}#{large_photo_path(photo)}"}
+    end
 
     before do
-      get "/#{photo.uuid}"
+      get photo_page_path(photo)
     end
 
     it "returns a 200" do
@@ -48,25 +80,49 @@ describe Isoworks do
     end
 
     it "sets the <title> to the title of the photo" do
-      assert_includes last_response.body, "<title>#{photo.title}</title>"
+      assert_includes last_response.body, escaped_title
     end
 
-    it "renders the large photo with alternate text" do
-      assert_match(/img src=".+large.+alt="/, last_response.body)
+    it "renders the <img> with the large photo path passed to the #url helper for the src attribute" do
+      assert_match url_helper_src, last_response.body
     end
 
-    describe "rendering a photo with metadata" do
-      it "renders the photo title" do
-        assert last_response.body.include?(photo.title)
+    it "renders the <img> with HTML escaped alternate text" do
+      assert_match escaped_alt, last_response.body
+    end
+
+    it "renders the HTML escaped photo title" do
+      assert_includes last_response.body, escaped_h1
+    end
+
+    describe "renders a tag list" do
+
+      def link_element(tag)
+        href = "#{url_helper_output}#{tag_path(tag)}"
+        %Q{<a href="#{href}">#{h(tag)}</a>}
       end
 
-      it "renders a list of the tags" do
-        assert last_response.body.include?('<ul id="tags">')
+      it 'has an unordered list with an id of "tags"' do
+        assert_includes last_response.body, '<ul id="tags">'
+      end
+
+      it "has an <li> with a <a> for each of the tags" do
+        assert_equal photo.tags.size, last_response.body.scan(/<li><a /).size
+      end
+
+      it "has a <a> element with HTML and percent escaped values that passed through the #url helper" do
+        photo.tags.each do |tag|
+          assert_includes last_response.body, link_element(tag)
+        end
       end
     end
 
     describe "rendering a photo without metadata" do
       let(:photo) { Fixtures.photos[:no_metadata] }
+
+      it "renders an empty <title> element" do
+        assert_includes last_response.body, "<title></title>"
+      end
 
       it "renders an empty photo title" do
         assert_includes last_response.body, "<h1></h1>"
@@ -75,23 +131,30 @@ describe Isoworks do
       it "doesn't render a list of the tags" do
         refute last_response.body.include?('<ul id="tags">')
       end
+
+      it "doesn't render any paragraph elements" do
+        refute last_response.body.include?("<p>")
+      end
     end
   end
 
   describe "viewing a list of photos with a certain tag" do
-    let(:tag) { "juggling" }
-    let(:number_of_photos) { Fixtures.juggling_photos.values.size }
+    let(:tag) { "safe > unsafe" }
+    let(:html_escaped_tag) { "safe &gt; unsafe" }
+    let(:url_escaped_tag) { "safe%20%3E%20unsafe" }
+    let(:html_escaped_title) { "<title>#{html_escaped_tag} photos</title>" }
+    let(:number_of_photos) { Fixtures.photos_tagged_unsafe.values.size }
 
     before do
-      get "/tags/#{tag}"
+      get tag_path(tag)
     end
 
     it "returns a success status code" do
       assert last_response.ok?
     end
 
-    it "sets the <title> to the tag" do
-      assert_includes last_response.body, "<title>#{tag} photos</title>"
+    it "sets the <title> to the HTML escaped tag" do
+      assert_includes last_response.body, html_escaped_title
     end
 
     it "renders a list of the tagged photos" do

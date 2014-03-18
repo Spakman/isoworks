@@ -1,8 +1,8 @@
 require "securerandom"
 
 module Fixtures
-  attr_reader :photos, :juggling_photos
-  module_function :photos, :juggling_photos
+  attr_reader :photos, :photos_tagged_unsafe
+  module_function :photos, :photos_tagged_unsafe
 
   FIXTURE_METADATA = {
     kayak: {
@@ -22,7 +22,7 @@ module Fixtures
     },
     html_unsafe: {
       filepath: "test/fixtures/photos/mark_ghost.jpg",
-      uuid: SecureRandom.uuid,
+      uuid: "safe > unsafe",
       title: "safe > unsafe",
       description: "A paragraph\n\nHTML to escape: safe > unsafe",
       tags: [ "me", "scotland", "east lothian", "seacliff", "safe > unsafe" ],
@@ -39,7 +39,7 @@ module Fixtures
       filepath: "test/fixtures/photos/mike_roc_bunker.jpg",
       uuid: SecureRandom.uuid,
       title: "Garvald ROC bunker",
-      tags: [ "mike", "garvald", "scotland", "east lothian" ],
+      tags: [ "mike", "garvald", "scotland", "east lothian", "safe > unsafe" ],
       added_at: Time.now - 150
     },
     angel_bay: {
@@ -71,9 +71,8 @@ module Fixtures
     @photos[name] = Photo.new(metadata[:filepath])
   end
 
-  @juggling_photos = {
-    tip_balance: @photos[:tip_balance],
-    px3s: @photos[:px3s],
-    angel_bay: @photos[:angel_bay]
+  @photos_tagged_unsafe = {
+    html_unsafe: @photos[:html_unsafe],
+    bunker: @photos[:bunker]
   }
 end

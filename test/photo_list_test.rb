@@ -13,9 +13,9 @@ describe PhotoList do
   end
 
   describe "#with_tag" do
-    let(:tag) { "juggling" }
+    let(:tag) { "safe > unsafe" }
     let(:sorted_fixtures) do
-      Fixtures.juggling_photos.values.sort_by { |photo| photo.added_at }
+      Fixtures.photos_tagged_unsafe.values.sort_by { |photo| photo.added_at }
     end
 
     it "returns a new PhotoList containing only photos with the passed tag" do

@@ -53,12 +53,12 @@ describe Photo do
         @photo = Photo.new("test/fixtures/photos/no_metadata.jpg")
       end
 
-      it "returns nil for the title" do
-        assert_nil @photo.title
+      it "returns an empty string for the title" do
+        assert_empty @photo.title
       end
 
-      it "returns nil for the description" do
-        assert_nil @photo.description
+      it "returns an empty string for the description" do
+        assert_empty @photo.description
       end
 
       it "returns an empty array for the tags" do

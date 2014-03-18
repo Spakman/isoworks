@@ -1,0 +1,4 @@
+%ul{ id: "tags" }
+  - @photo.tags.each do |tag|
+    %li<
+      %a{ href: url(tag_path(tag)) }&= tag
