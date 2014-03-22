@@ -161,4 +161,11 @@ describe Isoworks do
       assert_equal number_of_photos, last_response.body.scan(/<li>/).size
     end
   end
+
+  describe "404" do
+    it "returns a 404 if the page is not found" do
+      get "/favicon.ico"
+      assert_equal 404, last_response.status
+    end
+  end
 end

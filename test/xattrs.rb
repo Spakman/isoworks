@@ -22,7 +22,7 @@ module Fixtures
     },
     html_unsafe: {
       filepath: "test/fixtures/photos/mark_ghost.jpg",
-      uuid: "safe > unsafe",
+      uuid: SecureRandom.uuid,
       title: "safe > unsafe",
       description: "A paragraph\n\nHTML to escape: safe > unsafe",
       tags: [ "me", "scotland", "east lothian", "seacliff", "safe > unsafe" ],
