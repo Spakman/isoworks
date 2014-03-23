@@ -1,8 +1,7 @@
-%section
-  %ul
-    - @photo_list.photos.each do |photo|
-      %li
-        %h2<
-          &= photo.title
-        %a{ href: url(photo_page_path(photo)) }
-          %img{ src: url(small_photo_path(photo)), alt: photo.title }
+%ul.photoList
+  - @photo_list.photos.each do |photo|
+    %li<>
+      %h2<
+        &= photo.title
+      %a{ href: url(photo_page_path(photo)) }
+        %img{ src: url(small_photo_path(photo)), alt: photo.title }

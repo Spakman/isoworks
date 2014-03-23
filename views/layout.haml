@@ -7,4 +7,12 @@
     %link{ href: url("/stylesheets/isoworks.css"), rel: "stylesheet" }
 
   %body
-    = yield
+    %article
+      %header
+        %a{ href: url("/") }
+          ISOworks
+      = yield
+      %footer
+        %a{ href: "https://github.com/Spakman/isoworks" }<
+          ISOworks
+        is free software.

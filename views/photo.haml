@@ -1,7 +1,12 @@
-%article
-  %h1<
-    &= @photo.title
+%section
+  .photo
+    %h1<
+      &= @photo.title
 
-  %img{ src: url(large_photo_path(@photo)), alt: @photo.title }
-  = paragraphize(@photo.description)
+    %img{ src: url(large_photo_path(@photo)), alt: @photo.title }
+    = paragraphize(@photo.description)
+
+%aside
+  %h2
+    Tags
   = tag_list(@photo)
