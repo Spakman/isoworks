@@ -36,4 +36,37 @@ describe PhotoList do
       assert_equal photo, photolist.find(photo.uuid)
     end
   end
+
+  describe "items around" do
+    let(:first_photo) { Fixtures.photos[:tip_balance] }
+    let(:second_photo) { Fixtures.photos[:px3s] }
+    let(:third_photo) { Fixtures.photos[:kayak] }
+    let(:photo_list) do
+      PhotoList.new([
+        first_photo,
+        second_photo,
+        third_photo
+      ])
+    end
+
+    describe "#item_before" do
+      it "returns the previous item in the list" do
+        assert_equal first_photo, photo_list.item_before(second_photo)
+      end
+
+      it "returns false if there is no previous item" do
+        refute photo_list.item_before(first_photo)
+      end
+    end
+
+    describe "#item_after" do
+      it "returns the next item in the list" do
+        assert_equal third_photo, photo_list.item_after(second_photo)
+      end
+
+      it "returns false if there is no next item" do
+        refute photo_list.item_after(third_photo)
+      end
+    end
+  end
 end
