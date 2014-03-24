@@ -21,6 +21,10 @@ describe PhotoHelpers do
       assert_equal "/photos/large/#{url_escaped_text}", large_photo_path(photo)
     end
 
+    it "returns a string of the URL escaped thumb photo image path" do
+      assert_equal "/photos/thumb/#{url_escaped_text}", thumb_photo_path(photo)
+    end
+
     it "returns a string of the URL escaped tags viewing path" do
       assert_equal "/tags/#{url_escaped_text}", tag_path(unsafe_text)
     end

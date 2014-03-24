@@ -11,6 +11,10 @@ module PhotoHelpers
     "/photos/large/#{u(photo.filename)}"
   end
 
+  def thumb_photo_path(photo)
+    "/photos/thumb/#{u(photo.filename)}"
+  end
+
   def tag_path(tag)
     "/tags/#{u(tag)}"
   end
