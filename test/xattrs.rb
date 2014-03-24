@@ -1,8 +1,8 @@
 require "securerandom"
 
 module Fixtures
-  attr_reader :photos, :photos_tagged_unsafe
-  module_function :photos, :photos_tagged_unsafe
+  attr_reader :photos, :photos_tagged_unsafe, :photos_tagged_juggling
+  module_function :photos, :photos_tagged_unsafe, :photos_tagged_juggling
 
   FIXTURE_METADATA = {
     kayak: {
@@ -74,5 +74,11 @@ module Fixtures
   @photos_tagged_unsafe = {
     html_unsafe: @photos[:html_unsafe],
     bunker: @photos[:bunker]
+  }
+
+  @photos_tagged_juggling = {
+    angel_bay: @photos[:angel_bay],
+    tip_balance: @photos[:tip_balance],
+    px3: @photos[:px3s]
   }
 end

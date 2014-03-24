@@ -159,12 +159,35 @@ describe Isoworks do
     end
   end
 
+  describe "viewing a photo that is part of a tagged list" do
+    let(:photos) { Fixtures.photos_tagged_juggling.values }
+    let(:first_photo) { photos.first }
+    let(:second_photo) { photos[1] }
+    let(:third_photo) { photos.last }
+    let(:tag_path) { "/tags/juggling/" }
+    let(:list) do
+      PhotoList.new(photos)
+    end
+
+    before do
+      get "#{tag_path}#{second_photo.uuid}"
+    end
+
+    it "has a link to the previous photo in the list" do
+      assert_match %r{href=".+?#{tag_path}#{first_photo.uuid}"}, last_response.body
+    end
+
+    it "has a link to the next photo in the list" do
+      assert_match %r{href=".+?#{tag_path}#{third_photo.uuid}"}, last_response.body
+    end
+  end
+
   describe "viewing a list of photos with a certain tag" do
     let(:tag) { "safe > unsafe" }
     let(:html_escaped_tag) { "safe &gt; unsafe" }
     let(:url_escaped_tag) { "safe%20%3E%20unsafe" }
     let(:html_escaped_title) { "<title>#{html_escaped_tag} photos</title>" }
-    let(:number_of_photos) { Fixtures.photos_tagged_unsafe.values.size }
+    let(:photos) { Fixtures.photos_tagged_unsafe.values }
 
     before do
       get tag_path(tag)
@@ -179,7 +202,14 @@ describe Isoworks do
     end
 
     it "renders a list of the tagged photos" do
-      assert_equal number_of_photos, last_response.body.scan(/<li>/).size
+      assert_equal photos.size, last_response.body.scan(/<li>/).size
+    end
+
+    it "links to the tag specific photo page URLs" do
+      photos.each do |photo|
+        href = %Q{href="#{url_helper_output}/tags/#{url_escaped_tag}/#{photo.uuid}"}
+        assert_includes last_response.body, href
+      end
     end
   end
 

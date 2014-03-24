@@ -7,6 +7,9 @@ require_relative "lib/photo_helpers"
 PHOTOS_DIRECTORY = "#{File.dirname(__FILE__)}/public/photos/originals/"
 
 class Isoworks < Sinatra::Base
+
+  UUID_CAPTURING_REGEX = %r{(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})}
+
   helpers PhotoHelpers
 
   set :haml, format: :html5
@@ -25,21 +28,33 @@ class Isoworks < Sinatra::Base
     @haml_buffer = nil
   end
 
+  before do
+    @tag = false
+    @list = @all_photos
+  end
+
   get "/" do
-    @photo_list = @all_photos
     @title = "All photos"
     haml :photo_list
   end
 
-  get %r{^/(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})} do |uuid|
-    @list = @all_photos
+  get %r{^/#{UUID_CAPTURING_REGEX}} do |uuid|
+    @photo = @list.find(uuid)
+    @title = @photo.title
+    haml :photo
+  end
+
+  get %r{^/tags/(.+)/#{UUID_CAPTURING_REGEX}} do |tag, uuid|
+    @tag = tag
+    @list = @all_photos.with_tag(@tag)
     @photo = @list.find(uuid)
     @title = @photo.title
     haml :photo
   end
 
   get "/tags/:tag" do |tag|
-    @photo_list = @all_photos.with_tag(tag)
+    @tag = tag
+    @list = @all_photos.with_tag(tag)
     @title = "#{tag} photos"
     haml :photo_list
   end

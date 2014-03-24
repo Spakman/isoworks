@@ -15,8 +15,12 @@ module PhotoHelpers
     "/tags/#{u(tag)}"
   end
 
-  def photo_page_path(photo)
-    "/#{u(photo.uuid)}"
+  def photo_page_path(photo, tag = false)
+    if tag
+      "#{tag_path(tag)}/#{u(photo.uuid)}"
+    else
+      "/#{u(photo.uuid)}"
+    end
   end
 
   def tag_list(photo)

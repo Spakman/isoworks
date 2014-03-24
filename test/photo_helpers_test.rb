@@ -8,6 +8,7 @@ describe PhotoHelpers do
   let(:unsafe_text) { "safe > unsafe" }
   let(:html_escaped_text) { "safe &gt; unsafe" }
   let(:url_escaped_text) { "safe%20%3E%20unsafe" }
+  let(:tag) { "scotland" }
 
   describe "path methods" do
     let(:photo) { OpenStruct.new(filename: unsafe_text) }
@@ -22,6 +23,14 @@ describe PhotoHelpers do
 
     it "returns a string of the URL escaped tags viewing path" do
       assert_equal "/tags/#{url_escaped_text}", tag_path(unsafe_text)
+    end
+
+    it "returns a non-tagged photo page URL when no tag is passed" do
+      assert_equal "/#{photo.uuid}", photo_page_path(photo)
+    end
+
+    it "returns a non-tagged photo page URL when a tag is passed" do
+      assert_equal "/tags/#{tag}/#{photo.uuid}", photo_page_path(photo, tag)
     end
 
     describe "a photo with a broken UUID" do
