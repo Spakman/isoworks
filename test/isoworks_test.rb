@@ -96,7 +96,6 @@ describe Isoworks do
     end
 
     describe "renders a tag list" do
-
       def link_element(tag)
         href = "#{url_helper_output}#{tag_path(tag)}"
         %Q{<a href="#{href}">#{h(tag)}</a>}
@@ -134,6 +133,28 @@ describe Isoworks do
 
       it "doesn't render any paragraph elements" do
         refute last_response.body.include?("<p>")
+      end
+    end
+
+    describe "renders a navigator" do
+      it "contains a <nav> element with an id of navigator" do
+        assert_match %r{<nav id="navigator">.+?</nav>}, last_response.body
+      end
+
+      describe "viewing the first photo in the list" do
+        let(:photo) { Fixtures.photos[:angel_bay] }
+
+        it "contains a div with a class of first" do
+          assert_includes last_response.body, '<div class="first">First item</div>'
+        end
+      end
+
+      describe "viewing the last photo in the list" do
+        let(:photo) { Fixtures.photos[:kayak] }
+
+        it "contains a div with a class of last" do
+          assert_includes last_response.body, '<div class="last">Last item</div>'
+        end
       end
     end
   end

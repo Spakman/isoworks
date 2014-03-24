@@ -34,4 +34,11 @@ module PhotoHelpers
       ""
     end
   end
+
+  def navigator(item, list)
+    haml :navigator, layout: false, locals: {
+      previous_item: list.item_before(item),
+      next_item: list.item_after(item)
+    }
+  end
 end

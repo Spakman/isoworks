@@ -1,0 +1,14 @@
+%nav{ id: "navigator" }
+  - if previous_item = locals[:previous_item]
+    %a{ href: url(photo_page_path(previous_item)), class: "previous" }<>
+      %img{ src: url(large_photo_path(previous_item)), alt: previous_item.title, width: "75px", height: "75px" }<>
+  - else
+    .first<>
+      First item
+
+  - if next_item = locals[:next_item]
+    %a{ href: url(photo_page_path(next_item)), class: "next" }<>
+      %img{ src: url(large_photo_path(next_item)), alt: next_item.title, width: "75px", height: "75px" }<>
+  - else
+    .last<>
+      Last item

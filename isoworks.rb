@@ -32,7 +32,8 @@ class Isoworks < Sinatra::Base
   end
 
   get %r{^/(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})} do |uuid|
-    @photo = @all_photos.find(uuid)
+    @list = @all_photos
+    @photo = @list.find(uuid)
     @title = @photo.title
     haml :photo
   end

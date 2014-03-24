@@ -87,4 +87,47 @@ describe PhotoHelpers do
       assert_empty paragraphize(nil)
     end
   end
+
+  describe "#navigator" do
+    let(:first_item) { Fixtures.photos[:tip_balance] }
+    let(:second_item) { Fixtures.photos[:px3s] }
+    let(:third_item) { Fixtures.photos[:kayak] }
+    let(:list) do
+      PhotoList.new([
+        first_item,
+        second_item,
+        third_item
+      ])
+    end
+
+    def haml(template, *options)
+      @haml = {
+        template: template,
+        layout: options.first[:layout],
+        previous_item: options.last[:locals][:previous_item],
+        next_item: options.last[:locals][:next_item]
+      }
+    end
+
+    before do
+      @haml = false
+      navigator(second_item, list)
+    end
+
+    it "renders the :navigator Haml template" do
+      assert_equal :navigator, @haml[:template]
+    end
+
+    it "renders without a :layout" do
+      refute @haml[:layout]
+    end
+
+    it "renders passing in the previous item as a local variable" do
+      assert_equal first_item, @haml[:previous_item]
+    end
+
+    it "renders passing in the next item as a local variable" do
+      assert_equal third_item, @haml[:next_item]
+    end
+  end
 end
