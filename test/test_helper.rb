@@ -16,5 +16,5 @@ self.class.send(:remove_const, :PHOTOS_DIRECTORY)
 PHOTOS_DIRECTORY = "#{File.dirname(__FILE__)}/fixtures/photos/"
 
 def app
-  Isoworks
+  ISOworks
 end

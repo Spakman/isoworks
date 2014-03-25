@@ -1,10 +1,10 @@
-Isoworks
+ISOworks
 ===
 
 A simple, fast and database-less Sinatra application for hosting and browsing
 photos and videos on the web.
 
-Isoworks was borne out of frustration at the latest user interface changes to
+ISOworks was borne out of frustration at the latest user interface changes to
 Flickr. It is designed to import and then be fast and easy to browse media that
 has been tagged and edited on Flickr.
 
@@ -31,7 +31,7 @@ Installing the development version
 License
 ===
 
-Isoworks is released under the MIT License[2].
+ISOworks is released under the MIT License[2].
 
 Copyright (©) 2014 Mark Somerville <mark@crocodile.is>
 

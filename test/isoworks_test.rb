@@ -1,17 +1,17 @@
 require_relative "test_helper"
 
-describe Isoworks do
+describe ISOworks do
   include PhotoHelpers
 
   let(:url_helper_output) { "http://example.org" }
   let(:html_escaped_title) { "safe &gt; unsafe" }
 
   it "sets the HAML format to HTML5" do
-    assert_equal :html5, Isoworks.settings.haml[:format]
+    assert_equal :html5, ISOworks.settings.haml[:format]
   end
 
   it "sets the HAML attr_wrapper to a double quote for nicer HTML output" do
-    assert_equal ?", Isoworks.settings.haml[:attr_wrapper]
+    assert_equal ?", ISOworks.settings.haml[:attr_wrapper]
   end
 
   describe "the unfiltered photo list page" do

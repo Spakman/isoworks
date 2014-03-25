@@ -6,7 +6,7 @@ require_relative "lib/photo_helpers"
 
 PHOTOS_DIRECTORY = "#{File.dirname(__FILE__)}/public/photos/originals/"
 
-class Isoworks < Sinatra::Base
+class ISOworks < Sinatra::Base
 
   UUID_CAPTURING_REGEX = %r{(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})}
 
