@@ -44,6 +44,10 @@ h1, h2 {
   text-align: left;
 }
 
+h2 {
+  margin-top: 0;
+}
+
 article {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -119,6 +123,7 @@ aside {
 
 #navigator {
   padding: 0;
+  margin-bottom: 1em;
 }
 
   #navigator a, .first, .last {

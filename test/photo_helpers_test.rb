@@ -143,4 +143,14 @@ describe PhotoHelpers do
       assert_equal third_item, @haml[:next_item]
     end
   end
+
+  describe "the list title" do
+    it "returns all photos when the tag is not set" do
+      assert_equal "All photos", list_title(false)
+    end
+
+    it "returns an HTML escaped title when a tag is passed" do
+      assert_equal "Tagged: #{html_escaped_text}", list_title(unsafe_text)
+    end
+  end
 end

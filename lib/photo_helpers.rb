@@ -49,4 +49,12 @@ module PhotoHelpers
       next_item: list.item_after(item)
     }
   end
+
+  def list_title(tag)
+    if tag
+      "Tagged: #{h(tag)}"
+    else
+      "All photos"
+    end
+  end
 end
