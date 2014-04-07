@@ -2,7 +2,7 @@ class PhotoList
   attr_reader :photos
 
   def initialize(photos)
-    @photos = photos.sort_by { |photo| photo.added_at }
+    @photos = photos.sort_by { |photo| photo.added_at }.reverse
   end
 
   def with_tag(tag)

@@ -1,9 +1,9 @@
 require_relative "test_helper"
 
 describe PhotoList do
-  let(:photolist) { PhotoList.new(Fixtures.photos.values) }
+  let(:photolist) { PhotoList.new(Fixtures.photos.values.shuffle) }
   let(:sorted_fixtures) do
-    photolist.photos.sort_by { |photo| photo.added_at }
+    Fixtures.photos.values
   end
 
   describe "creating a photolist from an array of photos" do
@@ -15,7 +15,7 @@ describe PhotoList do
   describe "#with_tag" do
     let(:tag) { "safe > unsafe" }
     let(:sorted_fixtures) do
-      Fixtures.photos_tagged_unsafe.values.sort_by { |photo| photo.added_at }
+      Fixtures.photos_tagged_unsafe.values
     end
 
     it "returns a new PhotoList containing only photos with the passed tag" do
@@ -38,9 +38,9 @@ describe PhotoList do
   end
 
   describe "items around" do
-    let(:first_photo) { Fixtures.photos[:tip_balance] }
+    let(:first_photo) { Fixtures.photos[:kayak] }
     let(:second_photo) { Fixtures.photos[:px3s] }
-    let(:third_photo) { Fixtures.photos[:kayak] }
+    let(:third_photo) { Fixtures.photos[:tip_balance] }
     let(:photo_list) do
       PhotoList.new([
         first_photo,

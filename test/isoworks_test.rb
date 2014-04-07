@@ -142,7 +142,7 @@ describe ISOworks do
       end
 
       describe "viewing the first photo in the list" do
-        let(:photo) { Fixtures.photos[:angel_bay] }
+        let(:photo) { Fixtures.photos[:kayak] }
 
         it "contains a div with a class of first" do
           assert_includes last_response.body, '<div class="first">First item</div>'
@@ -150,7 +150,7 @@ describe ISOworks do
       end
 
       describe "viewing the last photo in the list" do
-        let(:photo) { Fixtures.photos[:kayak] }
+        let(:photo) { Fixtures.photos[:angel_bay] }
 
         it "contains a div with a class of last" do
           assert_includes last_response.body, '<div class="last">Last item</div>'

@@ -102,9 +102,9 @@ describe PhotoHelpers do
   end
 
   describe "#navigator" do
-    let(:first_item) { Fixtures.photos[:tip_balance] }
+    let(:first_item) { Fixtures.photos[:kayak] }
     let(:second_item) { Fixtures.photos[:px3s] }
-    let(:third_item) { Fixtures.photos[:kayak] }
+    let(:third_item) { Fixtures.photos[:tip_balance] }
     let(:list) do
       PhotoList.new([
         first_item,

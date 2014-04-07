@@ -13,12 +13,26 @@ module Fixtures
       tags: [ "north berwick", "kayaking", "east lothian", "scotland" ],
       added_at: Time.now
     },
+    px3s: {
+      filepath: "test/fixtures/photos/mark_px3s.jpg",
+      uuid: SecureRandom.uuid,
+      title: "Finally got myself some PX3s",
+      tags: [ "me", "juggling", "edinburgh", "scotland", "self portrait" ],
+      added_at: Time.now - 50
+    },
     tip_balance: {
       filepath: "test/fixtures/photos/stenny_tip_balance.jpg",
       uuid: SecureRandom.uuid,
       title: "Nice tip balance by Stenny",
       tags: %w( scotland edinburgh stenny juggling ),
       added_at: Time.now - 100
+    },
+    bunker: {
+      filepath: "test/fixtures/photos/mike_roc_bunker.jpg",
+      uuid: SecureRandom.uuid,
+      title: "Garvald ROC bunker",
+      tags: [ "mike", "garvald", "scotland", "east lothian", "safe > unsafe" ],
+      added_at: Time.now - 150
     },
     html_unsafe: {
       filepath: "test/fixtures/photos/mark_ghost.jpg",
@@ -28,19 +42,10 @@ module Fixtures
       tags: [ "me", "scotland", "east lothian", "seacliff", "safe > unsafe" ],
       added_at: Time.now - 200
     },
-    px3s: {
-      filepath: "test/fixtures/photos/mark_px3s.jpg",
+    no_metadata: {
+      filepath: "test/fixtures/photos/no_metadata.jpg",
       uuid: SecureRandom.uuid,
-      title: "Finally got myself some PX3s",
-      tags: [ "me", "juggling", "edinburgh", "scotland", "self portrait" ],
-      added_at: Time.now - 50
-    },
-    bunker: {
-      filepath: "test/fixtures/photos/mike_roc_bunker.jpg",
-      uuid: SecureRandom.uuid,
-      title: "Garvald ROC bunker",
-      tags: [ "mike", "garvald", "scotland", "east lothian", "safe > unsafe" ],
-      added_at: Time.now - 150
+      added_at: Time.now - 250
     },
     angel_bay: {
       filepath: "test/fixtures/photos/stenny_juggling_angel_bay.jpg",
@@ -48,11 +53,6 @@ module Fixtures
       title: "Stenny at Angel Bay",
       tags: [ "stenny", "juggling", "wales", "angel bay" ],
       added_at: Time.now - 300
-    },
-    no_metadata: {
-      filepath: "test/fixtures/photos/no_metadata.jpg",
-      uuid: SecureRandom.uuid,
-      added_at: Time.now - 250
     }
   }
 
@@ -72,13 +72,13 @@ module Fixtures
   end
 
   @photos_tagged_unsafe = {
-    html_unsafe: @photos[:html_unsafe],
-    bunker: @photos[:bunker]
+    bunker: @photos[:bunker],
+    html_unsafe: @photos[:html_unsafe]
   }
 
   @photos_tagged_juggling = {
-    angel_bay: @photos[:angel_bay],
+    px3: @photos[:px3s],
     tip_balance: @photos[:tip_balance],
-    px3: @photos[:px3s]
+    angel_bay: @photos[:angel_bay]
   }
 end
