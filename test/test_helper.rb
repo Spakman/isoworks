@@ -22,5 +22,5 @@ end
 
 module Paginatable
   remove_const(:PER_PAGE)
-  PER_PAGE = 2
+  PER_PAGE = 3
 end

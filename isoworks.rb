@@ -3,6 +3,7 @@ require "haml"
 require_relative "lib/photo"
 require_relative "lib/photo_list"
 require_relative "lib/photo_helpers"
+require_relative "lib/paginatable"
 
 PHOTOS_DIRECTORY = "#{File.dirname(__FILE__)}/public/photos/originals/"
 
@@ -30,7 +31,9 @@ class ISOworks < Sinatra::Base
 
   before do
     @tag = false
+    @page = params.fetch("page") { 1 }.to_i
     @list = @all_photos
+    @list.extend(Paginatable)
   end
 
   get "/" do
@@ -47,6 +50,7 @@ class ISOworks < Sinatra::Base
   get %r{^/tags/(.+)/#{UUID_CAPTURING_REGEX}} do |tag, uuid|
     @tag = tag
     @list = @all_photos.with_tag(@tag)
+    @list.extend(Paginatable)
     @photo = @list.find(uuid)
     @title = @photo.title
     haml :photo
@@ -55,6 +59,7 @@ class ISOworks < Sinatra::Base
   get "/tags/:tag" do |tag|
     @tag = tag
     @list = @all_photos.with_tag(tag)
+    @list.extend(Paginatable)
     @title = "#{tag} photos"
     haml :photo_list
   end

@@ -126,7 +126,7 @@ aside {
   margin-bottom: 1em;
 }
 
-  #navigator a, .first, .last {
+  #navigator a, #navigator .first, #navigator .last {
     width: 50%;
     height: 81px;
     display: inline-block;
@@ -139,7 +139,7 @@ aside {
     padding: 3px;
   }
 
-  .first, .last {
+  #navigator .first, #navigator .last {
     padding-top: 2em;
   }
 
@@ -147,18 +147,58 @@ aside {
     opacity: 1;
   }
 
-  #navigator a.previous, .first {
+  #navigator a.previous, #navigator .first {
     padding-right: 10px;
     text-align: right;
     border-right: none;
     background: url('/images/arrow_left.png') no-repeat left;
   }
 
-  #navigator a.next, .last {
+  #navigator a.next, #navigator .last {
     padding-left: 10px;
     text-align: left;
     border-left: none;
     background: url('/images/arrow_right.png') no-repeat right;
+  }
+
+#paginator {
+  margin: auto;
+  width: 15em;
+  position: relative;
+}
+
+  #paginator a {
+    opacity: 0.5;
+    text-decoration: none;
+    color: #505050;
+  }
+
+  #paginator a, #paginator .first, #paginator .last {
+    display: inline-block;
+    width: 40%;
+    position: absolute;
+  }
+
+  #paginator a.previous, #paginator .first {
+    background: url('/images/arrow_left.png') no-repeat left;
+    padding-left: 10px;
+    left: 0;
+  }
+
+  #paginator a.next, #paginator .last {
+    background: url('/images/arrow_right.png') no-repeat right;
+    right: 0;
+  }
+
+  #paginator .pageMarker {
+    display: inline-block;
+    width: 20%;
+    position: absolute;
+    left: 40%;
+  }
+
+  #paginator a:hover {
+    opacity: 1;
   }
 
 footer {
@@ -166,6 +206,6 @@ footer {
   border-top: 3px solid lightgray;
   text-align: right;
   padding-top: 0.5em;
-  margin-top: 1em;
+  margin-top: 3em;
   font-size: 0.8em;
 }

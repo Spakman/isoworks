@@ -50,6 +50,13 @@ module PhotoHelpers
     }
   end
 
+  def paginator(page, list)
+    haml :paginator, layout: false, locals: {
+      page: page,
+      number_of_pages: list.number_of_pages
+    }
+  end
+
   def list_title(tag)
     if tag
       "Tagged: #{h(tag)}"

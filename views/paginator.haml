@@ -1,0 +1,14 @@
+%nav{ id: "paginator" }
+  - if locals[:page] > 2
+    %a{ href: url("#{request.path_info}?page=#{locals[:page] - 1}"), class: "previous" }<>
+      Previous
+  - elsif locals[:page] == 2
+    %a{ href: url(request.path_info), class: "previous" }<>
+      Previous
+
+  .pageMarker<>
+    = "#{locals[:page]} / #{locals[:number_of_pages]}"
+
+  - if locals[:page] < locals[:number_of_pages]
+    %a{ href: url("#{request.path_info}?page=#{locals[:page] + 1}"), class: "next" }<>
+      Next

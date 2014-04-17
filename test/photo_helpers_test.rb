@@ -144,6 +144,38 @@ describe PhotoHelpers do
     end
   end
 
+  describe "#paginator" do
+    let(:page) { 1 }
+    let(:number_of_pages) { 5 }
+    let(:list) { OpenStruct.new(number_of_pages: number_of_pages) }
+
+    def haml(template, *options)
+      @haml = {
+        template: template,
+        layout: options.first[:layout],
+        page: options.last[:locals][:page],
+        number_of_pages: options.last[:locals][:number_of_pages]
+      }
+    end
+
+    before do
+      @haml = false
+      paginator(page, list)
+    end
+
+    it "renders the :paginator Haml template" do
+      assert_equal :paginator, @haml[:template]
+    end
+
+    it "renders passing the page as a local variable" do
+      assert_equal page, @haml[:page]
+    end
+
+    it "renders passing the number_of_pages as a local variable" do
+      assert_equal number_of_pages, @haml[:number_of_pages]
+    end
+  end
+
   describe "the list title" do
     it "returns all photos when the tag is not set" do
       assert_equal "All photos", list_title(false)

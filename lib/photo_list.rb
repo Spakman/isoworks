@@ -26,4 +26,12 @@ class PhotoList
     item_index = @photos.find_index(item)
     @photos[item_index+1]
   end
+
+  def slice(start, length)
+    photos.slice(start, length)
+  end
+
+  def size
+    photos.size
+  end
 end

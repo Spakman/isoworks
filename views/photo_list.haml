@@ -1,7 +1,9 @@
 %ul.photoList
-  - @list.photos.each do |photo|
+  - @list.items_for_page(@page).each do |photo|
     %li<>
       %h2<
         &= photo.title
       %a{ href: url(photo_page_path(photo, @tag)) }
         %img{ src: url(small_photo_path(photo)), alt: photo.title }
+
+= paginator(@page, @list)

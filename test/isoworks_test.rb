@@ -1,6 +1,7 @@
 require_relative "test_helper"
 
 describe ISOworks do
+
   include PhotoHelpers
 
   let(:url_helper_output) { "http://example.org" }
@@ -15,47 +16,103 @@ describe ISOworks do
   end
 
   describe "the unfiltered photo list page" do
-    let(:photos) { Fixtures.photos.values }
+    let(:first_page_photos) { Fixtures.photos.values[0, Paginatable::PER_PAGE] }
     let(:number_of_photos) { photos.size }
 
-    before do
-      get "/"
-    end
+    describe "viewing the first page" do
+      let(:photos) { first_page_photos }
 
-    it "returns a success status code" do
-      assert last_response.ok?
-    end
+      before do
+        get "/"
+      end
 
-    it 'sets the <title> to "All photos"' do
-      assert_includes last_response.body, "<title>All photos</title>"
-    end
+      it "renders a list of the first page of photos" do
+        assert_equal Paginatable::PER_PAGE, last_response.body.scan(/<li>/).size
+      end
 
-    it "renders a list of all photos" do
-      assert_equal number_of_photos, last_response.body.scan(/<li>/).size
-    end
+      it "returns a success status code" do
+        assert last_response.ok?
+      end
 
-    it "HTML escapes the title in the list item <h2>s" do
-      assert_includes last_response.body, "<h2>#{html_escaped_title}</h2>"
-    end
+      it 'sets the <title> to "All photos"' do
+        assert_includes last_response.body, "<title>All photos</title>"
+      end
 
-    it "links to each of the photo pages using the #url helper" do
-      photos.each do |photo|
-        a_element = %Q{<a href="#{url_helper_output}#{photo_page_path(photo)}">}
-        assert_includes last_response.body, a_element
+      it "links to the photo for this page" do
+        photos.each do |photo|
+          a_element = %Q{<a href="#{url_helper_output}#{photo_page_path(photo)}">}
+          assert_includes last_response.body, a_element
+        end
+      end
+
+      it "displays a small image of each of the photos using the #url helper" do
+        photos.each do |photo|
+          src = %Q{src="#{url_helper_output}#{small_photo_path(photo)}"}
+          assert_includes last_response.body, src
+        end
+      end
+
+      it "populates the alt attribute with the HTML escaped photo title" do
+        photos.each do |photo|
+          alt_text = %Q{alt="#{h(photo.title)}"}
+          assert_includes last_response.body, alt_text
+        end
+      end
+
+      it "shows which page is being displayed" do
+        assert_includes last_response.body, %Q{<div class="pageMarker">1 / 3</div>}
+      end
+
+      it "renders a next page link" do
+        assert_match %r{href=".*/?page=2"}, last_response.body
+      end
+
+      it "doesn't render a previous page link" do
+        refute_match %r{<a .*class="previous"}, last_response.body
       end
     end
 
-    it "displays a small image of each of the photos using the #url helper" do
-      photos.each do |photo|
-        src = %Q{src="#{url_helper_output}#{small_photo_path(photo)}"}
-        assert_includes last_response.body, src
+    describe "viewing the second page" do
+      before do
+        get "/?page=2"
+      end
+
+      it "doesn't include the first page photos" do
+        first_page_photos.each do |photo|
+          refute_includes last_response.body, photo.title
+        end
+      end
+
+      it "renders a previous page link without using a query string" do
+        assert_match %r{class="previous".*? href=".*/"}, last_response.body
+      end
+
+      it "renders a next page link" do
+        assert_match %r{href=".*/?page=3"}, last_response.body
+      end
+
+      it "HTML escapes the title in the list item <h2>s" do
+        assert_includes last_response.body, "<h2>#{html_escaped_title}</h2>"
       end
     end
 
-    it "populates the alt attribute with the HTML escaped photo title" do
-      photos.each do |photo|
-        alt_text = %Q{alt="#{h(photo.title)}"}
-        assert_includes last_response.body, alt_text
+    describe "viewing the last page" do
+      before do
+        get "/?page=3"
+      end
+
+      it "doesn't include the first page photos" do
+        first_page_photos.each do |photo|
+          refute_includes last_response.body, photo.title
+        end
+      end
+
+      it "renders a previous page link" do
+        assert_match %r{href=".*/?page=2"}, last_response.body
+      end
+
+      it "doesn't render a next page link" do
+        refute_match %r{<a .*class="next"}, last_response.body
       end
     end
   end

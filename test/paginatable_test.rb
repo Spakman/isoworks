@@ -2,7 +2,7 @@ require_relative "test_helper"
 
 describe Paginatable do
   let(:object) { Array(1..100) }
-  let(:number_of_pages) { 50 }
+  let(:number_of_pages) { 34 }
 
   before do
     object.extend(Paginatable)
@@ -13,7 +13,7 @@ describe Paginatable do
   end
 
   it "returns the items for a given page" do
-    assert_equal Array(3..4), object.items_for_page(2)
+    assert_equal Array(4..6), object.items_for_page(2)
   end
 
   describe "failing when the extended instance doesn't respond to required messages" do
