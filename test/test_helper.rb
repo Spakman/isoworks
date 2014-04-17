@@ -3,6 +3,7 @@ require "rack/test"
 require_relative "../lib/photo"
 require_relative "../lib/photo_list"
 require_relative "../lib/photo_helpers"
+require_relative "../lib/paginatable"
 require_relative "../isoworks"
 ENV["RACK_ENV"] = "test"
 
@@ -17,4 +18,9 @@ PHOTOS_DIRECTORY = "#{File.dirname(__FILE__)}/fixtures/photos/"
 
 def app
   ISOworks
+end
+
+module Paginatable
+  remove_const(:PER_PAGE)
+  PER_PAGE = 2
 end
