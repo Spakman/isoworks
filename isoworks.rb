@@ -30,6 +30,7 @@ class ISOworks < Sinatra::Base
   end
 
   before do
+    @photo = false
     @tag = false
     @page = params.fetch("page") { 1 }.to_i
     @list = @all_photos

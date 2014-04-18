@@ -5,6 +5,7 @@
     %title<
       &= @title
     %link{ href: url("/stylesheets/isoworks.css"), rel: "stylesheet" }
+    = prefetch_and_prerender_for(photo: @photo, list: @list)
 
   %body
     %article

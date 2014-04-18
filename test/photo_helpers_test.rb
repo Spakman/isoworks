@@ -185,4 +185,39 @@ describe PhotoHelpers do
       assert_equal "Tagged: #{html_escaped_text}", list_title(unsafe_text)
     end
   end
+
+  describe "#prefetch_and_prerender_for" do
+    let(:first_item) { Fixtures.photos[:kayak] }
+    let(:second_item) { Fixtures.photos[:px3s] }
+    let(:third_item) { Fixtures.photos[:tip_balance] }
+    let(:list) do
+      PhotoList.new([
+        first_item,
+        second_item,
+        third_item
+      ])
+    end
+
+    it "returns an empty string if the passed photo is nil" do
+      assert_empty prefetch_and_prerender_for(photo: nil, list: list)
+    end
+
+    it "returns an empty string if the passed list is nil" do
+      assert_empty prefetch_and_prerender_for(photo: second_item, list: nil)
+    end
+
+    it "includes a link tag that prefetches and prerenders the next item in the list" do
+      links = prefetch_and_prerender_for(photo: second_item, list: list)
+      assert_includes links, %Q{<link rel="prefetch prerender" href="#{photo_page_path(third_item)}">}
+    end
+
+    it "includes a link tag that prefetches the next large photo image in the list" do
+      links = prefetch_and_prerender_for(photo: second_item, list: list)
+      assert_includes links, %Q{<link rel="prefetch" href="#{large_photo_path(third_item)}">}
+    end
+
+    it "returns an empty string if the item is the last in the list" do
+      assert_empty prefetch_and_prerender_for(photo: third_item, list: list)
+    end
+  end
 end

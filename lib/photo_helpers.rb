@@ -64,4 +64,27 @@ module PhotoHelpers
       "All photos"
     end
   end
+
+  def prefetch_and_prerender_for(photo: nil, list: nil)
+    if item = next_item(photo: photo, list: list)
+      prefetch_and_prerender_links(item)
+    else
+      ""
+    end
+  end
+
+  private
+
+  def next_item(photo: nil, list: nil)
+    if photo && list
+      list.item_after(photo)
+    end
+  end
+
+  def prefetch_and_prerender_links(item)
+    %Q{
+      <link rel="prefetch prerender" href="#{photo_page_path(item)}">
+      <link rel="prefetch" href="#{large_photo_path(item)}">
+    }
+  end
 end
