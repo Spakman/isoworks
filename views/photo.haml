@@ -1,9 +1,6 @@
 %section
   .photo
-    %h1<
-      &= @photo.title
-
-    %img{ src: url(large_photo_path(@photo)), alt: @photo.title }
+    = image_srcset(@photo)
     = paragraphize(@photo.description)
 
 %aside

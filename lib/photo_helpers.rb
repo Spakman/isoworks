@@ -19,6 +19,27 @@ module PhotoHelpers
     "/tags/#{u(tag)}"
   end
 
+  def photo_path_1500(photo)
+    "/photos/1500/#{u(photo.filename)}"
+  end
+
+  def photo_path_1200(photo)
+    "/photos/1200/#{u(photo.filename)}"
+  end
+
+  def photo_path_900(photo)
+    "/photos/900/#{u(photo.filename)}"
+  end
+
+  def image_srcset(photo)
+    %Q{
+    <img
+      srcset="#{photo_path_1500(photo)} 1500w, #{photo_path_1200(photo)} 1200w, #{photo_path_900(photo)} 900w"
+      sizes="(min-width: 1850px) 1500px, (min-width: 1550px) 1200px, (min-width: 900px) 900px, 100vw"
+      src="#{photo_path_900(photo)}"\ >
+    }
+  end
+
   def photo_page_path(photo, tag = false)
     if tag
       "#{tag_path(tag)}/#{u(photo.uuid)}"
