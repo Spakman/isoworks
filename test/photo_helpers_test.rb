@@ -4,7 +4,7 @@ describe PhotoHelpers do
   include PhotoHelpers
 
   let(:photo) { Fixtures.photos[:html_unsafe] }
-  let(:no_metadata_photo) { Fixtures.photos[:no_metadata] }
+  let(:minimal_metadata_photo) { Fixtures.photos[:only_uuid_and_added_at] }
   let(:unsafe_text) { "safe > unsafe" }
   let(:html_escaped_text) { "safe &gt; unsafe" }
   let(:url_escaped_text) { "safe%20%3E%20unsafe" }
@@ -75,8 +75,8 @@ describe PhotoHelpers do
       end
     end
 
-    it "returns an empty string for the tag list when the photo has no metadata" do
-      assert_empty tag_list(no_metadata_photo)
+    it "returns an empty string for the tag list when the photo has minimal metadata" do
+      assert_empty tag_list(minimal_metadata_photo)
     end
   end
 

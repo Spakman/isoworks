@@ -1,3 +1,5 @@
+require "securerandom"
+require "time"
 require "ffi-xattr"
 
 class Photo
@@ -7,11 +9,17 @@ class Photo
     @filepath = filepath
     @filename = File.basename(filepath)
     xattr = Xattr.new(filepath)
-    @uuid = xattr["user.isoworks.uuid"]
+    unless @uuid = xattr["user.isoworks.uuid"]
+      xattr["user.isoworks.uuid"] = @uuid = SecureRandom.uuid
+    end
     @title = xattr["user.isoworks.title"] || ""
     @description = xattr["user.isoworks.description"] || ""
     xattr_tags = xattr["user.isoworks.tags"]
-    @added_at = xattr["user.isoworks.added_at"]
+    if time = xattr["user.isoworks.added_at"]
+      @added_at = Time.parse(time)
+    else
+      @added_at = Time.now
+    end
     @tags = xattr_tags ? xattr_tags.split("|") : []
   end
 

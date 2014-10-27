@@ -90,10 +90,6 @@ describe ISOworks do
       it "renders a next page link" do
         assert_match %r{href=".*/?page=3"}, last_response.body
       end
-
-      it "HTML escapes the title in the list item <h2>s" do
-        assert_includes last_response.body, "<h2>#{html_escaped_title}</h2>"
-      end
     end
 
     describe "viewing the last page" do
@@ -122,10 +118,10 @@ describe ISOworks do
     let(:escaped_title) { "<title>#{html_escaped_title}</title>" }
     let(:escaped_h1) { "<h1>#{html_escaped_title}</h1>" }
     let(:escaped_alt) do
-      %r{<img alt="#{html_escaped_title}"}
+      %r{<img.+?alt="#{html_escaped_title}"}m
     end
     let(:url_helper_src) do
-      %r{<img alt=".+?" src="#{url_helper_output}#{large_photo_path(photo)}"}
+      %r{<img.+?src="#{photo_path_900(photo)}"}m
     end
 
     before do
@@ -140,16 +136,20 @@ describe ISOworks do
       assert_includes last_response.body, escaped_title
     end
 
-    it "renders the <img> with the large photo path passed to the #url helper for the src attribute" do
+    it "renders the <img> with the small photo path passed to the #url helper for the src attribute" do
       assert_match url_helper_src, last_response.body
     end
 
     it "renders the <img> with HTML escaped alternate text" do
-      assert_match escaped_alt, last_response.body
+      assert_match(escaped_alt, last_response.body)
     end
 
-    it "renders the HTML escaped photo title" do
-      assert_includes last_response.body, escaped_h1
+    it "render the image srcset attribute" do
+      assert_match(/<img.+?sizes="/m, last_response.body)
+    end
+
+    it "render the image sizes attribute" do
+      assert_match(/<img.+?srcset="/m, last_response.body)
     end
 
     describe "renders a tag list" do
@@ -173,15 +173,11 @@ describe ISOworks do
       end
     end
 
-    describe "rendering a photo without metadata" do
-      let(:photo) { Fixtures.photos[:no_metadata] }
+    describe "rendering a photo with minimal metadata" do
+      let(:photo) { Fixtures.photos[:only_uuid_and_added_at] }
 
       it "renders an empty <title> element" do
         assert_includes last_response.body, "<title></title>"
-      end
-
-      it "renders an empty photo title" do
-        assert_includes last_response.body, "<h1></h1>"
       end
 
       it "doesn't render a list of the tags" do

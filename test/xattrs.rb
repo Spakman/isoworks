@@ -1,8 +1,10 @@
 require "securerandom"
 
+UUID_CAPTURING_REGEX = %r{(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})}
+
 module Fixtures
-  attr_reader :photos, :photos_tagged_unsafe, :photos_tagged_juggling
-  module_function :photos, :photos_tagged_unsafe, :photos_tagged_juggling
+  attr_reader :photos, :photos_tagged_unsafe, :photos_tagged_juggling, :no_metadata
+  module_function :photos, :photos_tagged_unsafe, :photos_tagged_juggling, :no_metadata
 
   FIXTURE_METADATA = {
     kayak: {
@@ -27,8 +29,8 @@ module Fixtures
       tags: %w( scotland edinburgh stenny juggling ),
       added_at: Time.now - 100
     },
-    bunker: {
-      filepath: "test/fixtures/photos/mike_roc_bunker.jpg",
+    bunker_html_unsafe: {
+      filepath: "test/fixtures/photos/mike_roc_bunker_html_unsafe.jpg",
       uuid: SecureRandom.uuid,
       title: "Garvald ROC bunker",
       tags: [ "mike", "garvald", "scotland", "east lothian", "safe > unsafe" ],
@@ -42,8 +44,8 @@ module Fixtures
       tags: [ "me", "scotland", "east lothian", "seacliff", "safe > unsafe" ],
       added_at: Time.now - 200
     },
-    no_metadata: {
-      filepath: "test/fixtures/photos/no_metadata.jpg",
+    only_uuid_and_added_at: {
+      filepath: "test/fixtures/photos/only_uuid_and_added_at.jpg",
       uuid: SecureRandom.uuid,
       added_at: Time.now - 250
     },
@@ -67,12 +69,14 @@ module Fixtures
 
   @photos = {}
 
+  @no_metadata = Photo.new("test/fixtures/no_metadata.jpg")
+
   FIXTURE_METADATA.each_pair do |name, metadata|
     @photos[name] = Photo.new(metadata[:filepath])
   end
 
   @photos_tagged_unsafe = {
-    bunker: @photos[:bunker],
+    bunker_html_unsafe: @photos[:bunker_html_unsafe],
     html_unsafe: @photos[:html_unsafe]
   }
 

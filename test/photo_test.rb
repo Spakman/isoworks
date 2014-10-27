@@ -38,7 +38,7 @@ describe Photo do
       end
 
       it "has an added_at Time" do
-        assert_equal added_at, @photo.added_at
+        assert_kind_of Time, @photo.added_at
       end
 
       it "has a UUID" do
@@ -46,11 +46,16 @@ describe Photo do
       end
     end
 
-    describe "when a photo doesn't have associated attributes" do
-      let(:fixture) { Fixtures.photos[:no_metadata] }
+    describe "when a photo doesn't have any associated attributes" do
+      let(:fixture) { Fixtures.no_metadata }
 
       before do
-        @photo = Photo.new("test/fixtures/photos/no_metadata.jpg")
+        save_no_metadata
+        @photo = Photo.new("test/fixtures/no_metadata.jpg")
+      end
+
+      after do
+        restore_no_metadata
       end
 
       it "returns an empty string for the title" do
@@ -74,11 +79,15 @@ describe Photo do
       end
 
       it "has an added_at Time" do
-        assert_equal added_at, @photo.added_at
+        assert_kind_of Time, @photo.added_at
       end
 
       it "has a UUID" do
-        assert_equal uuid, @photo.uuid
+        assert_match UUID_CAPTURING_REGEX, @photo.uuid
+      end
+
+      it "writes the UUID to the file" do
+        assert_equal @photo.uuid, Xattr.new(@photo.filepath)["user.isoworks.uuid"]
       end
     end
   end
