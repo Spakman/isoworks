@@ -1,5 +1,6 @@
 require "securerandom"
 require "time"
+require "set"
 require "ffi-xattr"
 
 class Photo
@@ -19,9 +20,9 @@ class Photo
       @added_at = Time.now
     end
     xattr_tags = read_attribute(:tags)
-    @tags = xattr_tags ? xattr_tags.split("|") : []
+    @tags = xattr_tags ? Set.new(xattr_tags.split("|")) : Set.new
     xattr_collections = read_attribute(:collections)
-    @collections = xattr_collections ? xattr_collections.split("|") : []
+    @collections = xattr_collections ? Set.new(xattr_collections.split("|")) : Set.new
   end
 
   def ==(object)
@@ -29,12 +30,14 @@ class Photo
   end
 
   def tags=(tags)
-    @tags = !tags.respond_to?(:each) ? tags = [ tags ] : tags
+    tags = [ tags ] unless tags.respond_to?(:each)
+    @tags = @tags | tags
     write_attribute(:tags, @tags)
   end
 
   def collections=(collections)
-    @collections = !collections.respond_to?(:each) ? collections = [ collections ] : collections
+    collections = [ collections ] unless collections.respond_to?(:each)
+    @collections = @collections | collections
     write_attribute(:collections, @collections)
   end
 
@@ -51,7 +54,7 @@ class Photo
   end
 
   def write_attribute(attribute, value)
-    value = value.respond_to?(:each) ? value = value.join("|") : value
+    value = value.respond_to?(:each) ? value = value.to_a.join("|") : value
     @xattr["user.isoworks.#{attribute}"] = value
     value
   end

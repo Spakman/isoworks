@@ -114,22 +114,38 @@ describe Photo do
 
     it "returns the array of tags as the attribute" do
       @photo.tags = tags
-      assert_equal(tags, @photo.tags)
+      assert_equal(tags, @photo.tags.to_a)
     end
 
     it "sets user.isoworks.tags extended attribute on the file" do
       @photo.tags = tags
-      assert_equal Xattr.new(@photo.filepath)["user.isoworks.tags"], @photo.tags.join("|")
+      assert_equal Xattr.new(@photo.filepath)["user.isoworks.tags"], @photo.tags.to_a.join("|")
+    end
+
+    it "merges the new and existing tags" do
+      existing_tags = %w( climbing existing )
+      @photo.tags = existing_tags
+      @photo.tags = tags
+      expected_attr = (@photo.tags + existing_tags).to_a.join("|")
+      assert_equal expected_attr, Xattr.new(@photo.filepath)["user.isoworks.tags"]
     end
 
     it "returns the array of collections as the attribute" do
       @photo.collections = collections
-      assert_equal(collections, @photo.collections)
+      assert_equal(collections, @photo.collections.to_a)
     end
 
     it "sets user.isoworks.collections extended attribute on the file" do
       @photo.collections = collections
-      assert_equal @photo.collections.join("|"), Xattr.new(@photo.filepath)["user.isoworks.collections"]
+      assert_equal @photo.collections.to_a.join("|"), Xattr.new(@photo.filepath)["user.isoworks.collections"]
+    end
+
+    it "merges the new and existing collections" do
+      existing_collections = %w( climbing existing )
+      @photo.collections = existing_collections
+      @photo.collections = collections
+      expected_attr = (@photo.collections + existing_collections).to_a.join("|")
+      assert_equal expected_attr, Xattr.new(@photo.filepath)["user.isoworks.collections"]
     end
   end
 end
