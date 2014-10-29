@@ -97,4 +97,39 @@ describe Photo do
       assert_equal Photo.new(Fixtures.photos[:px3s].filepath), Photo.new(Fixtures.photos[:px3s].filepath)
     end
   end
+
+  describe "setting tags for a photo" do
+    let(:fixture) { Fixtures.no_metadata }
+    let(:tags) { %w( climbing scotland ) }
+    let(:collections) { %w( collection1 collection2 ) }
+
+    before do
+      save_no_metadata
+      @photo = Photo.new("test/fixtures/no_metadata.jpg")
+    end
+
+    after do
+      restore_no_metadata
+    end
+
+    it "returns the array of tags as the attribute" do
+      @photo.tags = tags
+      assert_equal(tags, @photo.tags)
+    end
+
+    it "sets user.isoworks.tags extended attribute on the file" do
+      @photo.tags = tags
+      assert_equal Xattr.new(@photo.filepath)["user.isoworks.tags"], @photo.tags.join("|")
+    end
+
+    it "returns the array of collections as the attribute" do
+      @photo.collections = collections
+      assert_equal(collections, @photo.collections)
+    end
+
+    it "sets user.isoworks.collections extended attribute on the file" do
+      @photo.collections = collections
+      assert_equal @photo.collections.join("|"), Xattr.new(@photo.filepath)["user.isoworks.collections"]
+    end
+  end
 end
