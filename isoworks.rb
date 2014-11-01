@@ -21,7 +21,7 @@ class ISOworks < Sinatra::Base
     photos = Dir.glob("#{PHOTOS_DIRECTORY}*.jpg").map do |filepath|
       Photo.new(filepath)
     end
-    @all_photos = PhotoList.new(photos)
+    read_photos
     super
   end
 
@@ -29,17 +29,28 @@ class ISOworks < Sinatra::Base
     @haml_buffer = nil
   end
 
+  private def read_photos
+    photos = Dir.glob("#{PHOTOS_DIRECTORY}*.jpg").map do |filepath|
+      Photo.new(filepath)
+    end
+    @@all_photos = PhotoList.new(photos)
+  end
+
   before do
     @photo = false
     @tag = false
     @page = params.fetch("page") { 1 }.to_i
-    @list = @all_photos
+    @list = @@all_photos
     @list.extend(Paginatable)
   end
 
   get "/" do
     @title = "All photos"
     haml :photo_list
+  end
+
+  get "/import" do
+    read_photos
   end
 
   get %r{^/#{UUID_CAPTURING_REGEX}} do |uuid|
@@ -60,7 +71,7 @@ class ISOworks < Sinatra::Base
 
   get %r{^/tags/(.+)/#{UUID_CAPTURING_REGEX}} do |tag, uuid|
     @tag = tag
-    @list = @all_photos.with_tag(@tag)
+    @list = @@all_photos.with_tag(@tag)
     @list.extend(Paginatable)
     @photo = @list.find(uuid)
     @title = @photo.title
@@ -69,7 +80,7 @@ class ISOworks < Sinatra::Base
 
   get "/tags/:tag" do |tag|
     @tag = tag
-    @list = @all_photos.with_tag(tag)
+    @list = @@all_photos.with_tag(tag)
     @list.extend(Paginatable)
     @title = "#{tag} photos"
     haml :photo_list
