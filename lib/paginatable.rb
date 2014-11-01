@@ -1,5 +1,5 @@
 module Paginatable
-  PER_PAGE = 48
+  PER_PAGE = 60
 
   def number_of_pages
     (size / PER_PAGE.to_f).ceil
