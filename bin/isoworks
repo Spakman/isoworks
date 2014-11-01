@@ -1,0 +1,39 @@
+#!/usr/bin/ruby
+require "optparse"
+require_relative "../lib/photo"
+
+begin
+  $0 = "ISOworks"
+
+  options = {}
+  OptionParser.new do |opts|
+    opts.banner = "Usage: isoworks [OPTIONS] PHOTO..."
+
+    opts.on("-t", "--tags [TAGS]", Array, "comma-separated list of tags to write to user.isoworks.tags") do |tags|
+      options[:tags] = tags
+    end
+
+    opts.on("-c", "--collections [COLLECTIONS]", Array, "comma-separated list of collections to write to user.isoworks.collections") do |collections|
+      options[:collections] = collections
+    end
+
+    opts.on("-h", "--help", "Show this message") do
+      puts opts
+      exit 0
+    end
+  end.parse!
+
+  ARGV.each do |filepath|
+    photo = Photo.new(filepath)
+    photo.tags = options[:tags] if options[:tags]
+    photo.collections = options[:collections] if options[:collections]
+  end
+
+rescue Exception => exception
+  if exception.class == SystemExit
+    exit exception.status
+  end
+  puts "ISOworks exited.\n\n"
+  STDERR.puts "  #{exception.class}: #{exception.message}"
+  STDERR.puts "  "+exception.backtrace.join("\n  ")
+end
