@@ -40,6 +40,16 @@ class Photo
     self.tags = @tags + [ tag ]
   end
 
+  def remove_tag(tag)
+    @tags.delete(tag)
+    self.tags = @tags.to_a
+  end
+
+  def remove_collection(collection)
+    @collections.delete(collection)
+    self.collections = @collections.to_a
+  end
+
   def collections=(collections)
     collections = [ collections ] unless collections.respond_to?(:each)
     @collections = (@collections | collections).map(&:strip)

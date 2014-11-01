@@ -175,5 +175,17 @@ describe Photo do
       @photo.add_collection("")
       refute_includes(@photo.collections, "")
     end
+
+    it "removes a tag" do
+      @photo.add_tag("tag")
+      @photo.remove_tag("tag")
+      refute_includes(@photo.tags, "tag")
+    end
+
+    it "removes a collection" do
+      @photo.add_collection("collection")
+      @photo.remove_collection("collection")
+      refute_includes(@photo.collections, "collection")
+    end
   end
 end
