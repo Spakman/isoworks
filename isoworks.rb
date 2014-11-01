@@ -53,6 +53,11 @@ class ISOworks < Sinatra::Base
     @photo.tags = @photo.tags << params[:tag]
   end
 
+  post %r{^/#{UUID_CAPTURING_REGEX}/delete_tag} do |uuid|
+    @photo = @list.find(uuid)
+    @photo.tags = @photo.remove_tag(params[:tag])
+  end
+
   get %r{^/tags/(.+)/#{UUID_CAPTURING_REGEX}} do |tag, uuid|
     @tag = tag
     @list = @all_photos.with_tag(@tag)
