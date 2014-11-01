@@ -48,6 +48,11 @@ class ISOworks < Sinatra::Base
     haml :photo
   end
 
+  post %r{^/#{UUID_CAPTURING_REGEX}/add_tag} do |uuid|
+    @photo = @list.find(uuid)
+    @photo.tags = @photo.tags << params[:tag]
+  end
+
   get %r{^/tags/(.+)/#{UUID_CAPTURING_REGEX}} do |tag, uuid|
     @tag = tag
     @list = @all_photos.with_tag(@tag)

@@ -6,6 +6,7 @@
       &= @title
     %link{ href: url("/stylesheets/isoworks.css"), rel: "stylesheet" }
     = prefetch_and_prerender_for(photo: @photo, list: @list)
+    %script{ type: "text/javascript", src: "/javascripts/tag_manager.js" }
 
   %body
     %article
