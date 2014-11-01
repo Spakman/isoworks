@@ -15,12 +15,10 @@ class ISOworks < Sinatra::Base
 
   set :haml, format: :html5
   set :haml, attr_wrapper: ?"
+  set :bind, '0.0.0.0'
 
   def initialize
     get_rid_of_haml_instance_variable_warning
-    photos = Dir.glob("#{PHOTOS_DIRECTORY}*.jpg").map do |filepath|
-      Photo.new(filepath)
-    end
     read_photos
     super
   end
@@ -51,6 +49,7 @@ class ISOworks < Sinatra::Base
 
   get "/import" do
     read_photos
+    redirect to("/")
   end
 
   get %r{^/#{UUID_CAPTURING_REGEX}} do |uuid|
