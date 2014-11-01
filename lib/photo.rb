@@ -31,14 +31,24 @@ class Photo
 
   def tags=(tags)
     tags = [ tags ] unless tags.respond_to?(:each)
-    @tags = @tags | tags
+    @tags = (@tags | tags).map(&:strip)
+    @tags.delete_if { |tag| tag.empty? }
     write_attribute(:tags, @tags)
+  end
+
+  def add_tag(tag)
+    self.tags = @tags + [ tag ]
   end
 
   def collections=(collections)
     collections = [ collections ] unless collections.respond_to?(:each)
-    @collections = @collections | collections
+    @collections = (@collections | collections).map(&:strip)
+    @collections.delete_if { |collection| collection.empty? }
     write_attribute(:collections, @collections)
+  end
+
+  def add_collection(collection)
+    self.collections = @collections + [ collection ]
   end
 
   private

@@ -126,8 +126,7 @@ describe Photo do
       existing_tags = %w( climbing existing )
       @photo.tags = existing_tags
       @photo.tags = tags
-      expected_attr = (@photo.tags + existing_tags).to_a.join("|")
-      assert_equal expected_attr, Xattr.new(@photo.filepath)["user.isoworks.tags"]
+      assert_equal (tags | existing_tags).sort, @photo.tags.sort
     end
 
     it "returns the array of collections as the attribute" do
@@ -144,8 +143,37 @@ describe Photo do
       existing_collections = %w( climbing existing )
       @photo.collections = existing_collections
       @photo.collections = collections
-      expected_attr = (@photo.collections + existing_collections).to_a.join("|")
-      assert_equal expected_attr, Xattr.new(@photo.filepath)["user.isoworks.collections"]
+      assert_equal (collections | existing_collections).sort, @photo.collections.sort
+    end
+
+    it "adds a single tag to a photo using #add_tag" do
+      @photo.add_tag("tag")
+      assert_includes(@photo.tags, "tag")
+    end
+
+    it "strips leading and trailing whitespace from tags" do
+      @photo.add_tag(" tag ")
+      assert_includes(@photo.tags, "tag")
+    end
+
+    it "adds a single collection to a photo using #add_collection" do
+      @photo.add_collection("collection")
+      assert_includes(@photo.collections, "collection")
+    end
+
+    it "strips leading and trailing whitespace from collections" do
+      @photo.add_collection(" collection ")
+      assert_includes(@photo.collections, "collection")
+    end
+
+    it "doesn't add an empty tag" do
+      @photo.add_tag("")
+      refute_includes(@photo.tags, "")
+    end
+
+    it "doesn't add an empty collection" do
+      @photo.add_collection("")
+      refute_includes(@photo.collections, "")
     end
   end
 end
