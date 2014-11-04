@@ -211,9 +211,9 @@ describe PhotoHelpers do
       assert_includes links, %Q{<link rel="prefetch prerender" href="#{photo_page_path(third_item)}">}
     end
 
-    it "includes a link tag that prefetches the next large photo image in the list" do
+    it "includes a link tag that prefetches the next 1500 photo image in the list" do
       links = prefetch_and_prerender_for(photo: second_item, list: list)
-      assert_includes links, %Q{<link rel="prefetch" href="#{large_photo_path(third_item)}">}
+      assert_includes links, %Q{<link rel="prefetch" href="#{photo_path_1500(third_item)}">}
     end
 
     it "returns an empty string if the item is the last in the list" do

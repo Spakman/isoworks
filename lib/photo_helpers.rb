@@ -128,7 +128,7 @@ module PhotoHelpers
   def prefetch_and_prerender_links(item)
     %Q{
       <link rel="prefetch prerender" href="#{photo_page_path(item)}">
-      <link rel="prefetch" href="#{large_photo_path(item)}">
+      <link rel="prefetch" href="#{photo_path_1500(item)}">
     }
   end
 end
