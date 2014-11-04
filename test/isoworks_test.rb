@@ -121,7 +121,7 @@ describe ISOworks do
       %r{<img.+?alt="#{html_escaped_title}"}m
     end
     let(:url_helper_src) do
-      %r{<img.+?src="#{photo_path_900(photo)}"}m
+      %r{<img.+?src="#{photo_path_1500(photo)}"}m
     end
 
     before do

@@ -37,7 +37,7 @@ module PhotoHelpers
       srcset="#{photo_path_1500(photo)} 1500w, #{photo_path_1200(photo)} 1200w, #{photo_path_900(photo)} 900w"
       sizes="(min-width: 1850px) 1500px, (min-width: 1550px) 1200px, (min-width: 900px) 900px, 100vw"
       alt="#{h(photo.title)}"
-      src="#{photo_path_900(photo)}"\ >
+      src="#{photo_path_1500(photo)}"\ >
     }
   end
 
