@@ -95,6 +95,28 @@ module PhotoHelpers
     end
   end
 
+  def prev_link(photo: nil, list: nil, tag: nil)
+    if photo and item = list.item_before(photo)
+      %{<link rel="prev" href="#{photo_page_path(item, tag)}" />}
+    end
+  end
+
+  def next_link(photo: nil, list: nil, tag: nil)
+    if photo and item = list.item_after(photo)
+      %{<link rel="next" href="#{photo_page_path(item, tag)}" />}
+    end
+  end
+
+  def up_link(photo: nil, list: nil, tag: nil)
+    if photo
+      if tag
+        %{<link rel="up" href="#{tag_path(tag)}?page=#{list.page_number_for(photo)}" />}
+      else
+        %{<link rel="up" href="/?page=#{list.page_number_for(photo)}" />}
+      end
+    end
+  end
+
   private
 
   def next_item(photo: nil, list: nil)

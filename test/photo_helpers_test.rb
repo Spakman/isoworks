@@ -220,4 +220,67 @@ describe PhotoHelpers do
       assert_empty prefetch_and_prerender_for(photo: third_item, list: list)
     end
   end
+
+  describe "<link> elements" do
+    let(:first_item) { Fixtures.photos[:kayak] }
+    let(:second_item) { Fixtures.photos[:px3s] }
+    let(:third_item) { Fixtures.photos[:tip_balance] }
+    let(:fourth_item) { Fixtures.photos[:bunker_html_unsafe] }
+    let(:list) do
+      PhotoList.new([
+        first_item,
+        second_item,
+        third_item,
+        fourth_item
+      ])
+    end
+
+    describe "#next_link" do
+      it "includes the URI for the second item when the first photo is passed" do
+        link = %{<link rel="next" href="#{photo_page_path(second_item)}" />}
+        assert_equal(link, next_link(photo: first_item, list: list))
+      end
+
+      it "returns nil when the fourth item is passed" do
+        refute(next_link(photo: fourth_item, list: list))
+      end
+    end
+
+    describe "#prev_link" do
+      it "includes the URI for the first item when the second photo is passed" do
+        link = %{<link rel="prev" href="#{photo_page_path(first_item)}" />}
+        assert_equal(link, prev_link(photo: second_item, list: list))
+      end
+
+      it "returns nil when the first item is passed" do
+        refute(prev_link(photo: first_item, list: list))
+      end
+    end
+
+    describe "#up_link" do
+      it "includes /?page=1 when the first item is passed" do
+        link = %{<link rel="up" href="/?page=1" />}
+        assert_equal(link, up_link(photo: first_item, list: list))
+      end
+
+      it "includes /?page=2 when the fourth item is passed" do
+        link = %{<link rel="up" href="/?page=2" />}
+        assert_equal(link, up_link(photo: fourth_item, list: list))
+      end
+
+      it "includes /tags/tag?page=1 when the first item and a tag are passed" do
+        link = %{<link rel="up" href="/tags/tag?page=1" />}
+        assert_equal(link, up_link(photo: first_item, list: list, tag: "tag"))
+      end
+
+      it "includes /tags/tag?page=2 when the fourth item and a tag are passed" do
+        link = %{<link rel="up" href="/tags/tag?page=2" />}
+        assert_equal(link, up_link(photo: fourth_item, list: list, tag: "tag"))
+      end
+
+      it "returns nil when no photo is passed" do
+        refute(up_link(list: list, tag: "tag"))
+      end
+    end
+  end
 end

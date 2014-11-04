@@ -5,8 +5,12 @@
     %title<
       &= @title
     %link{ href: url("/stylesheets/isoworks.css"), rel: "stylesheet" }
+    = prev_link(photo: @photo, list: @list, tag: @tag)
+    = next_link(photo: @photo, list: @list, tag: @tag)
+    = up_link(photo: @photo, list: @list, tag: @tag)
     = prefetch_and_prerender_for(photo: @photo, list: @list)
     %script{ type: "text/javascript", src: "/javascripts/tag_manager.js" }
+    %script{ type: "text/javascript", src: "/javascripts/keyboard_navigator.js" }
 
   %body
     %article

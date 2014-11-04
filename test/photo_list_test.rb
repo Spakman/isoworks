@@ -69,4 +69,31 @@ describe PhotoList do
       end
     end
   end
+
+  describe "#page_number_for" do
+    let(:first_photo) { Fixtures.photos[:kayak] }
+    let(:second_photo) { Fixtures.photos[:px3s] }
+    let(:third_photo) { Fixtures.photos[:tip_balance] }
+    let(:fourth_photo) { Fixtures.photos[:angel_bay] }
+    let(:photo_list) do
+      PhotoList.new([
+        first_photo,
+        second_photo,
+        third_photo,
+        fourth_photo
+      ])
+    end
+
+    it "returns 1 for the first item in the list" do
+      assert_equal(1, photo_list.page_number_for(first_photo))
+    end
+
+    it "returns 1 for the third item in the list" do
+      assert_equal(1, photo_list.page_number_for(third_photo))
+    end
+
+    it "returns 2 for the fourth item in the list" do
+      assert_equal(2, photo_list.page_number_for(fourth_photo))
+    end
+  end
 end

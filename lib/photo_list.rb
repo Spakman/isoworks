@@ -27,6 +27,10 @@ class PhotoList
     @photos[item_index+1]
   end
 
+  def page_number_for(item)
+    ((@photos.index(item) + 1) / Paginatable::PER_PAGE.to_f).ceil
+  end
+
   def slice(start, length)
     photos.slice(start, length)
   end
