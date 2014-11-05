@@ -326,4 +326,14 @@ describe PhotoHelpers do
       end
     end
   end
+
+  describe "#filter_title" do
+    it "returns nil if no tag is given" do
+      refute(filter_title(tag: nil))
+    end
+
+    it 'returns "Tagged: tag" when the tag "tag" is given' do
+      assert_equal("Tagged: tag", filter_title(tag: "tag"))
+    end
+  end
 end

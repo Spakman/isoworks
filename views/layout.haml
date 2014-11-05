@@ -17,6 +17,8 @@
       %header
         %a{ href: url("/") }
           ISOworks
+        .filter
+          = filter_title(tag: @tag)
       %nav#primaryNav
         %ul
           %li{ class: ("selected" if @selected == :all) }

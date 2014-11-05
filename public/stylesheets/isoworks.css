@@ -10,10 +10,14 @@ header {
   font-size: 2em;
 }
 
-header a {
-  text-decoration: none;
-  color: #505050;
-}
+  header a {
+    text-decoration: none;
+    color: #505050;
+  }
+
+  header .filter {
+    float: right;
+  }
 
 #primaryNav {
   box-sizing: border-box;
@@ -132,17 +136,17 @@ ul.tagList {
     margin-top: 0.5em;
   }
 
+  ul.tagList a {
+    text-decoration: none;
+    color: #333;
+  }
+
 div.firstPhotos img, .noPhoto {
   box-sizing: border-box;
   display: inline-block;
   width: 88px;
   height: 88px;
   margin: 0;
-}
-
-ul.tagList a {
-  text-decoration: none;
-  color: #333;
 }
 
 h1, h2 {

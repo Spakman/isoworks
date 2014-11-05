@@ -123,6 +123,10 @@ module PhotoHelpers
     end
   end
 
+  def filter_title(tag: nil)
+    "Tagged: #{tag}" if tag
+  end
+
   private
 
   def next_item(photo: nil, list: nil)
