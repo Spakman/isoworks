@@ -2,7 +2,7 @@ body {
   text-align: center;
   font-family: Helvetica sans-serif;
   color: #505050;
-  background: #333;
+  background: #444;
 }
 
 header {
@@ -17,15 +17,15 @@ header a {
 
 #primaryNav {
   box-sizing: border-box;
-  background: #333;
-  margin: 0 0 0.5em 0;
-  color: white;
+  background: #444;
+  margin: 0.25em 0 1em 0;
+  color: darkgray;
 }
 
   #primaryNav ul {
     list-style-type: none;
     text-align: left;
-    padding: 0.5em 0.5em 0 0.5em;
+    padding: 0.5em 0.5em;
     margin: 0;
     height: 100%;
   }
@@ -33,21 +33,33 @@ header a {
   #primaryNav li {
     display: inline-block;
     width: 10em;
-    border-top: 1px solid darkgray;
     border-right: 1px solid darkgray;
     padding: 0;
     margin: 0;
     text-align: center;
   }
 
-  #primaryNav li.selected {
-    background: darkgray;
-    color: #333;
-  }
-
   #primaryNav li:last {
     border-right: none;
   }
+
+    #primaryNav li a {
+      display: block;
+      padding: 0.5em 0;
+      padding: 0;
+      color: darkgray;
+      text-decoration: none;
+    }
+
+    #primaryNav li a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    #primaryNav li.selected a {
+      color: white;
+      font-weight: bold;
+    }
 
 .tag {
   float: right;
@@ -70,9 +82,30 @@ ul.photoList {
     justify-content: center;
     margin-top: -1px;
     margin-right: -1px;
-    border: 1px solid white;
+    border: 1px solid #999;
     width: 300px;
     height: 301px;
+  }
+
+  ul.photoList li:hover {
+    background: #bbb;
+  }
+
+    ul.photoList li .item {
+      width: 100%;
+      height: 100%;
+    }
+
+      ul.photoList li .item a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+
+  ul.photoList img {
+    box-shadow: 1px 1px 3px 2px #888;
   }
 
 h1, h2 {
@@ -84,12 +117,27 @@ h2 {
   margin-top: 0;
 }
 
+.navigator, aside {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 270px;
+  padding: 10px;
+  background: #bbb;
+  height: 830px;
+  box-shadow: 1px 1px 3px 2px #999;
+}
+
+.navigator {
+  height: 150px;
+  margin-bottom: 20px;
+}
+
 article {
   box-sizing: border-box;
   width: 948px;
-  margin: 20px auto 0 auto;
+  margin: 20px auto;
   background: darkgray;
-  padding: 1em 20px 0.5em 20px;
+  padding: 0.5em 20px 0.5em 20px;
 }
 
 @media all and (min-width: 1250px) {
@@ -98,7 +146,7 @@ article {
   }
 
   section {
-    width: 950px;
+    width: 930px;
   }
 }
 
@@ -108,7 +156,7 @@ article {
   }
 
   section {
-    width: 1250px;
+    width: 1230px;
   }
 }
 
@@ -118,7 +166,7 @@ article {
   }
 
   section {
-    width: 1550px;
+    width: 1530px;
   }
 }
 
@@ -133,6 +181,7 @@ section {
 
   .photo {
     margin: auto;
+    box-sizing: border-box;
     display: inline-block;
     text-align: center;
     width: 100%;
@@ -146,37 +195,35 @@ section {
 
   .photo img {
     margin-bottom: 1em;
+    box-shadow: 1px 1px 3px 2px #888;
   }
-
-aside {
-  width: 250px;
-  float: right;
-}
 
 #tags {
   width: auto;
   list-style-type: none;
   font-size: 0.9em;
   padding: 0;
-  margin: 0.5em auto 0 auto;
+  margin: 0.5em auto 0.5em auto;
   text-align: left;
 }
 
   #tags li {
     position: relative;
+    box-sizing: border-box;
     display: inline;
     padding: 0;
   }
 
   #tags a {
     display: inline-block;
-    border: 1px solid #505050;
+    border: 1px solid #888;
     border-radius: 1em 2em 2em 1em;
-    padding: 0.2em 1.5em 0.2em 0.3em;
+    padding: 0.2em 1.3em 0.25em 0.4em;
     text-decoration: none;
     color: #505050;
     font-weight: normal;
     margin: 0.2em 0.1em;
+    background: #ddd;
   }
 
   #tags a:hover {
@@ -187,13 +234,13 @@ aside {
   #tags a.delete {
     position: absolute;
     opacity: 0;
-    top: -2px;
-    right: 2px;
-    width: 12px;
-    height: 15px;
+    top: 1px;
+    right: 0px;
+    width: 6px;
+    height: 10px;
     padding: 0 0 0 3px;
     border-radius: 1em 1em 1em 1em;
-    font-size: 0.9em;
+    font-size: 0.7em;
   }
 
   #tags a.delete:hover {
@@ -201,6 +248,34 @@ aside {
     background: white;
     color: black;
     border: 1px solid red;
+  }
+
+form.addTag {
+  width: 100%;
+}
+
+  form.addTag input {
+    float: right;
+    width: 25%;
+  }
+
+  #tag {
+    float: left;
+    width: 70%;
+    outline: none;
+    background: #ddd;
+    border: 1px solid #888;
+    border-radius: 1em 2em 2em 1em;
+    padding: 2px 6px;
+    margin-left: 2px;
+    box-sizing: border-box;
+    height: 24px;
+    color: #505050;
+  }
+
+  #tagSubmit {
+    box-sizing: border-box;
+    height: 24px;
   }
 
 #navigator {
@@ -243,8 +318,13 @@ aside {
     background: url('/images/arrow_right.png') no-repeat right;
   }
 
+    #navigator a img {
+      border: 1px solid #777;
+    }
+
 #paginator {
-  margin: auto;
+  border: 1px solid transparent;
+  margin: 1em auto;
   width: 15em;
   position: relative;
 }
@@ -285,7 +365,7 @@ aside {
 
 footer {
   clear: both;
-  border-top: 3px solid white;
+  border-top: 3px solid #888;
   text-align: right;
   padding-top: 0.5em;
   margin-top: 3em;

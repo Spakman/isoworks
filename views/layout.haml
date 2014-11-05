@@ -17,6 +17,24 @@
       %header
         %a{ href: url("/") }
           ISOworks
+      %nav#primaryNav<>
+        %ul<>
+          %li.selected<>
+            %a{ href: url("/") }
+              By upload date
+          %li
+            %a{ href: url("/date") }
+              By date taken
+          %li<>
+            %a{ href: url("/tags") }
+              Tags
+          %li<>
+            %a{ href: url("/collections") }
+              Collections
+          %li<>
+            %a{ href: url("/import") }
+              Import
+
       = yield
       %footer
         %a{ href: "https://github.com/Spakman/isoworks" }<

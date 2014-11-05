@@ -64,7 +64,7 @@ function TagManager () {
     var a = document.createElement('a');
     a.href = "";
     a.className = "delete";
-    a.appendChild(document.createTextNode("!!"));
+    a.appendChild(document.createTextNode("!"));
     a.addEventListener("click", this.deleteTagClickHandler.bind(this), false);
     li.appendChild(a);
   }

@@ -27,7 +27,8 @@ describe ISOworks do
       end
 
       it "renders a list of the first page of photos" do
-        assert_equal Paginatable::PER_PAGE, last_response.body.scan(/<li>/).size
+        last_response.body =~ /(?<photos_list><ul class="photoList">.+<\/li>)/m
+        assert_equal Paginatable::PER_PAGE, Regexp.last_match(:photos_list).scan(/<li>/).size
       end
 
       it "returns a success status code" do
@@ -163,7 +164,8 @@ describe ISOworks do
       end
 
       it "has an <li> with a <a> for each of the tags" do
-        assert_equal photo.tags.size, last_response.body.scan(/<li><a /).size
+        last_response.body =~ /(?<tags_list><ul id="tags">.+<\/li>)/m
+        assert_equal photo.tags.size, Regexp.last_match(:tags_list).scan(/<li><a /).size
       end
 
       it "has a <a> element with HTML and percent escaped values that passed through the #url helper" do
@@ -255,7 +257,8 @@ describe ISOworks do
     end
 
     it "renders a list of the tagged photos" do
-      assert_equal photos.size, last_response.body.scan(/<li>/).size
+      last_response.body =~ /(?<photos_list><ul class="photoList">.+<\/li>)/m
+      assert_equal photos.size, Regexp.last_match(:photos_list).scan(/<li>/).size
     end
 
     it "links to the tag specific photo page URLs" do

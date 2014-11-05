@@ -3,14 +3,15 @@
     = image_srcset(@photo)
     = paragraphize(@photo.description)
 
-%aside
+.navigator
   %h2
     = list_title(@tag)
   = navigator(@photo, @list)
 
+%aside
   %h2
     Tags
   = tag_list(@photo)
   %form#addTag(action="/#{@photo.uuid}/add_tag" method="post")
     %input{ type: "text", id: "tag", name: "tag", autofocus: "autofocus" }
-    %input{ type: "submit", value: "Add tag" }
+    %input{ type: "submit", id: "tagSubmit", value: "Add tag" }
