@@ -118,6 +118,8 @@ module PhotoHelpers
       else
         %{<link rel="up" href="/?page=#{list.page_number_for(photo)}" />}
       end
+    elsif tag
+      %{<link rel="up" href="/tags" />}
     end
   end
 
