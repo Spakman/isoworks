@@ -176,6 +176,44 @@ describe PhotoHelpers do
     end
   end
 
+  describe "#recent_photos" do
+    let(:first_item) { Fixtures.photos[:kayak] }
+    let(:second_item) { Fixtures.photos[:px3s] }
+    let(:third_item) { Fixtures.photos[:tip_balance] }
+    let(:list) do
+      PhotoList.new([
+        first_item,
+        second_item,
+        third_item
+      ])
+    end
+
+    def haml(template, *options)
+      @haml = {
+        template: template,
+        layout: options.first[:layout],
+        list: options.last[:locals][:list]
+      }
+    end
+
+    before do
+      @haml = false
+      recent_photos(list)
+    end
+
+    it "renders the :recent_photos Haml template" do
+      assert_equal :recent_photos, @haml[:template]
+    end
+
+    it "renders without a :layout" do
+      refute @haml[:layout]
+    end
+
+    it "renders passing in the list as a local variable" do
+      assert_equal list, @haml[:list]
+    end
+  end
+
   describe "the list title" do
     it "returns all photos when the tag is not set" do
       assert_equal "All photos", list_title(false)

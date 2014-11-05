@@ -79,6 +79,10 @@ module PhotoHelpers
     }
   end
 
+  def recent_photos(list)
+    haml :recent_photos, layout: false, locals: { list: list }
+  end
+
   def list_title(tag)
     if tag
       "Tagged: #{h(tag)}"

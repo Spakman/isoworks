@@ -4,6 +4,7 @@ require_relative "lib/photo"
 require_relative "lib/photo_list"
 require_relative "lib/photo_helpers"
 require_relative "lib/paginatable"
+require_relative "lib/tag_list"
 
 PHOTOS_DIRECTORY = "#{File.dirname(__FILE__)}/public/photos/originals/"
 
@@ -45,6 +46,13 @@ class ISOworks < Sinatra::Base
   get "/" do
     @title = "All photos"
     haml :photo_list
+  end
+
+  get "/tags" do
+    @title = "Tags"
+    @tag_list = TagList.new_from_photo_list(@list)
+    @tag_list.extend(Paginatable)
+    haml :tags
   end
 
   get "/import" do

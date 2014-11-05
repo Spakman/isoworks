@@ -1,0 +1,13 @@
+%img{ src: url(thumb_photo_path(list.first)), width: 90, height: 90 }
+- if list.size > 1
+  %img{ src: url(thumb_photo_path(list[1])), width: 90, height: 90 }
+- else
+  .noPhoto
+- if list.size > 2
+  %img{ src: url(thumb_photo_path(list[2])), width: 90, height: 90 }
+- else
+  .noPhoto
+- if list.size > 3
+  %img{ src: url(thumb_photo_path(list[3])), width: 90, height: 90 }
+- else
+  .noPhoto

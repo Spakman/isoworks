@@ -275,4 +275,19 @@ describe ISOworks do
       assert_equal 404, last_response.status
     end
   end
+
+  describe "viewing the list of tags" do
+    before do
+      get "/tags"
+    end
+
+    it 'has a <ul> with a class of "tagList"' do
+      assert_includes(last_response.body, '<ul class="tagList">')
+    end
+
+    it "has a 3 tag <li>s" do
+      last_response.body =~ /(?<tags_list><ul class="tagList">.+<\/li>)/m
+      assert_equal Paginatable::PER_PAGE, Regexp.last_match(:tags_list).scan(/<li>/).size
+    end
+  end
 end
