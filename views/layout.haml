@@ -5,9 +5,9 @@
     %title<
       &= @title
     %link{ href: url("/stylesheets/isoworks.css"), rel: "stylesheet" }
-    = prev_link(photo: @photo, list: @list, tag: @tag)
-    = next_link(photo: @photo, list: @list, tag: @tag)
-    = up_link(photo: @photo, list: @list, tag: @tag)
+    = prev_link(photo: @photo, list: @list, tag: @tag, collection: @collection)
+    = next_link(photo: @photo, list: @list, tag: @tag, collection: @collection)
+    = up_link(photo: @photo, list: @list, tag: @tag, collection: @collection)
     = prefetch_and_prerender_for(photo: @photo, list: @list)
     %script{ type: "text/javascript", src: "/javascripts/tag_manager.js" }
     %script{ type: "text/javascript", src: "/javascripts/keyboard_navigator.js" }
@@ -18,7 +18,7 @@
         %a{ href: url("/") }
           ISOworks
         .filter
-          = filter_title(tag: @tag)
+          = filter_title(tag: @tag, collection: @collection)
       %nav#primaryNav
         %ul
           %li{ class: ("selected" if @selected == :all) }

@@ -1,0 +1,11 @@
+%ul.arrayAttributeList
+  - @collection_list.items_for_page(@page).each do |collectioned_photos|
+    %li<>
+      .item
+        %a{ href: url(collection_path(collectioned_photos.collection)) }
+          .firstPhotos
+            = recent_photos(collectioned_photos.photos)
+          .collection
+            = collectioned_photos.collection
+
+= paginator(@page, @collection_list)

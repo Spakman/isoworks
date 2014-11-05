@@ -9,6 +9,10 @@ class PhotoList
     PhotoList.new(@photos.find_all { |photo| photo.tags.include?(tag) })
   end
 
+  def with_collection(collection)
+    PhotoList.new(@photos.find_all { |photo| photo.collections.include?(collection) })
+  end
+
   def find(uuid)
     @photos.find { |photo| photo.uuid == uuid }
   end

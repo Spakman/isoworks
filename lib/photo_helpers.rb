@@ -19,6 +19,10 @@ module PhotoHelpers
     "/tags/#{u(tag)}"
   end
 
+  def collection_path(collection)
+    "/collections/#{u(collection)}"
+  end
+
   def photo_path_1500(photo)
     "/photos/1500/#{u(photo.filename)}"
   end
@@ -41,9 +45,11 @@ module PhotoHelpers
     }
   end
 
-  def photo_page_path(photo, tag = false)
+  def photo_page_path(photo: photo, tag: nil, collection: nil)
     if tag
       "#{tag_path(tag)}/#{u(photo.uuid)}"
+    elsif collection
+      "#{collection_path(collection)}/#{u(photo.uuid)}"
     else
       "/#{u(photo.uuid)}"
     end
@@ -83,9 +89,11 @@ module PhotoHelpers
     haml :recent_photos, layout: false, locals: { list: list }
   end
 
-  def list_title(tag)
+  def list_title(tag: nil, collection: nil)
     if tag
       "Tagged: #{h(tag)}"
+    elsif collection
+      "Collection: #{h(collection)}"
     else
       "All photos"
     end
@@ -99,32 +107,40 @@ module PhotoHelpers
     end
   end
 
-  def prev_link(photo: nil, list: nil, tag: nil)
+  def prev_link(photo: nil, list: nil, tag: nil, collection: nil)
     if photo and item = list.item_before(photo)
-      %{<link rel="prev" href="#{photo_page_path(item, tag)}" />}
+      %{<link rel="prev" href="#{photo_page_path(photo: item, tag: tag, collection: collection)}" />}
     end
   end
 
-  def next_link(photo: nil, list: nil, tag: nil)
+  def next_link(photo: nil, list: nil, tag: nil, collection: nil)
     if photo and item = list.item_after(photo)
-      %{<link rel="next" href="#{photo_page_path(item, tag)}" />}
+      %{<link rel="next" href="#{photo_page_path(photo: item, tag: tag, collection: collection)}" />}
     end
   end
 
-  def up_link(photo: nil, list: nil, tag: nil)
+  def up_link(photo: nil, list: nil, tag: nil, collection: nil)
     if photo
       if tag
         %{<link rel="up" href="#{tag_path(tag)}?page=#{list.page_number_for(photo)}" />}
+      elsif collection
+        %{<link rel="up" href="#{collection_path(collection)}?page=#{list.page_number_for(photo)}" />}
       else
         %{<link rel="up" href="/?page=#{list.page_number_for(photo)}" />}
       end
     elsif tag
       %{<link rel="up" href="/tags" />}
+    elsif collection
+      %{<link rel="up" href="/collections" />}
     end
   end
 
-  def filter_title(tag: nil)
-    "Tagged: #{tag}" if tag
+  def filter_title(tag: nil, collection: nil)
+    if tag
+      "Tagged: #{tag}"
+    elsif collection
+      "Collection: #{collection}"
+    end
   end
 
   private
@@ -137,7 +153,7 @@ module PhotoHelpers
 
   def prefetch_and_prerender_links(item)
     %Q{
-      <link rel="prefetch prerender" href="#{photo_page_path(item)}">
+      <link rel="prefetch prerender" href="#{photo_page_path(photo: item)}">
       <link rel="prefetch" href="#{photo_path_1500(item)}">
     }
   end

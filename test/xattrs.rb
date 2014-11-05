@@ -3,8 +3,8 @@ require "securerandom"
 UUID_CAPTURING_REGEX = %r{(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})}
 
 module Fixtures
-  attr_reader :photos, :photos_tagged_unsafe, :photos_tagged_juggling, :no_metadata
-  module_function :photos, :photos_tagged_unsafe, :photos_tagged_juggling, :no_metadata
+  attr_reader :photos, :photos_tagged_unsafe, :photos_tagged_juggling, :photos_collectioned_outside, :no_metadata
+  module_function :photos, :photos_tagged_unsafe, :photos_tagged_juggling, :photos_collectioned_outside, :no_metadata
 
   FIXTURE_METADATA = {
     kayak: {
@@ -13,6 +13,7 @@ module Fixtures
       title: "Yellowcraigs",
       description: "I had wanted to go to Fidra since I was wee.\n\nIt is rather cool!",
       tags: [ "north berwick", "kayaking", "east lothian", "scotland" ],
+      collections: [ "outside" ],
       added_at: Time.now
     },
     px3s: {
@@ -34,6 +35,7 @@ module Fixtures
       uuid: SecureRandom.uuid,
       title: "Garvald ROC bunker",
       tags: [ "mike", "garvald", "scotland", "east lothian", "safe > unsafe" ],
+      collections: [ "outside" ],
       added_at: Time.now - 150
     },
     html_unsafe: {
@@ -42,6 +44,7 @@ module Fixtures
       title: "safe > unsafe",
       description: "A paragraph\n\nHTML to escape: safe > unsafe",
       tags: [ "me", "scotland", "east lothian", "seacliff", "safe > unsafe" ],
+      collections: [ "outside" ],
       added_at: Time.now - 200
     },
     only_uuid_and_added_at: {
@@ -54,6 +57,7 @@ module Fixtures
       uuid: SecureRandom.uuid,
       title: "Stenny at Angel Bay",
       tags: [ "stenny", "juggling", "wales", "angel bay" ],
+      collections: [ "wales" ],
       added_at: Time.now - 300
     }
   }
@@ -63,6 +67,7 @@ module Fixtures
     xattr["user.isoworks.title"] = fixture[:title]
     xattr["user.isoworks.description"] = fixture[:description]
     xattr["user.isoworks.tags"] = fixture[:tags].join("|") if fixture[:tags]
+    xattr["user.isoworks.collections"] = fixture[:collections].join("|") if fixture[:collections]
     xattr["user.isoworks.added_at"] = fixture[:added_at]
     xattr["user.isoworks.uuid"] = fixture[:uuid]
   end
@@ -84,5 +89,11 @@ module Fixtures
     px3: @photos[:px3s],
     tip_balance: @photos[:tip_balance],
     angel_bay: @photos[:angel_bay]
+  }
+
+  @photos_collectioned_outside = {
+    kayak: @photos[:kayak],
+    bunker_html_unsafe: @photos[:bunker_html_unsafe],
+    html_unsafe: @photos[:html_unsafe]
   }
 end

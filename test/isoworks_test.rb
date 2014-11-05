@@ -41,7 +41,7 @@ describe ISOworks do
 
       it "links to the photo for this page" do
         photos.each do |photo|
-          a_element = %Q{<a href="#{url_helper_output}#{photo_page_path(photo)}">}
+          a_element = %Q{<a href="#{url_helper_output}#{photo_page_path(photo: photo)}">}
           assert_includes last_response.body, a_element
         end
       end
@@ -126,7 +126,7 @@ describe ISOworks do
     end
 
     before do
-      get photo_page_path(photo)
+      get photo_page_path(photo: photo)
     end
 
     it "returns a 200" do
@@ -282,11 +282,11 @@ describe ISOworks do
     end
 
     it 'has a <ul> with a class of "tagList"' do
-      assert_includes(last_response.body, '<ul class="tagList">')
+      assert_includes(last_response.body, '<ul class="arrayAttributeList">')
     end
 
     it "has a 3 tag <li>s" do
-      last_response.body =~ /(?<tags_list><ul class="tagList">.+<\/li>)/m
+      last_response.body =~ /(?<tags_list><ul class="arrayAttributeList">.+<\/li>)/m
       assert_equal Paginatable::PER_PAGE, Regexp.last_match(:tags_list).scan(/<li>/).size
     end
   end

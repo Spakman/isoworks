@@ -5,7 +5,7 @@
 
 .navigator
   %h2
-    = list_title(@tag)
+    = list_title(tag: @tag, collection: @collection)
   = navigator(@photo, @list)
 
 %aside

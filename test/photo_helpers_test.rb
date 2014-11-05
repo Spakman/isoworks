@@ -9,6 +9,7 @@ describe PhotoHelpers do
   let(:html_escaped_text) { "safe &gt; unsafe" }
   let(:url_escaped_text) { "safe%20%3E%20unsafe" }
   let(:tag) { "scotland" }
+  let(:collection) { "outside" }
 
   describe "path methods" do
     let(:photo) { OpenStruct.new(filename: unsafe_text) }
@@ -30,18 +31,22 @@ describe PhotoHelpers do
     end
 
     it "returns a non-tagged photo page URL when no tag is passed" do
-      assert_equal "/#{photo.uuid}", photo_page_path(photo)
+      assert_equal "/#{photo.uuid}", photo_page_path(photo: photo)
     end
 
-    it "returns a non-tagged photo page URL when a tag is passed" do
-      assert_equal "/tags/#{tag}/#{photo.uuid}", photo_page_path(photo, tag)
+    it "returns a tagged photo page URL when a tag is passed" do
+      assert_equal "/tags/#{tag}/#{photo.uuid}", photo_page_path(photo: photo, tag: tag)
+    end
+
+    it "returns a collectioned photo page URL when a collection is passed" do
+      assert_equal "/collections/#{collection}/#{photo.uuid}", photo_page_path(photo: photo, collection: collection)
     end
 
     describe "a photo with a broken UUID" do
       let(:photo) { OpenStruct.new(uuid: unsafe_text) }
 
       it "returns a string of the URL escaped photo page path" do
-        assert_equal "/#{url_escaped_text}", photo_page_path(photo)
+        assert_equal "/#{url_escaped_text}", photo_page_path(photo: photo)
       end
     end
   end
@@ -216,11 +221,15 @@ describe PhotoHelpers do
 
   describe "the list title" do
     it "returns all photos when the tag is not set" do
-      assert_equal "All photos", list_title(false)
+      assert_equal "All photos", list_title()
     end
 
     it "returns an HTML escaped title when a tag is passed" do
-      assert_equal "Tagged: #{html_escaped_text}", list_title(unsafe_text)
+      assert_equal "Tagged: #{html_escaped_text}", list_title(tag: unsafe_text)
+    end
+
+    it "returns an HTML escaped title when a collection is passed" do
+      assert_equal "Collection: #{html_escaped_text}", list_title(collection: unsafe_text)
     end
   end
 
@@ -246,7 +255,7 @@ describe PhotoHelpers do
 
     it "includes a link tag that prefetches and prerenders the next item in the list" do
       links = prefetch_and_prerender_for(photo: second_item, list: list)
-      assert_includes links, %Q{<link rel="prefetch prerender" href="#{photo_page_path(third_item)}">}
+      assert_includes links, %Q{<link rel="prefetch prerender" href="#{photo_page_path(photo: third_item)}">}
     end
 
     it "includes a link tag that prefetches the next 1500 photo image in the list" do
@@ -275,7 +284,7 @@ describe PhotoHelpers do
 
     describe "#next_link" do
       it "includes the URI for the second item when the first photo is passed" do
-        link = %{<link rel="next" href="#{photo_page_path(second_item)}" />}
+        link = %{<link rel="next" href="#{photo_page_path(photo: second_item)}" />}
         assert_equal(link, next_link(photo: first_item, list: list))
       end
 
@@ -286,7 +295,7 @@ describe PhotoHelpers do
 
     describe "#prev_link" do
       it "includes the URI for the first item when the second photo is passed" do
-        link = %{<link rel="prev" href="#{photo_page_path(first_item)}" />}
+        link = %{<link rel="prev" href="#{photo_page_path(photo: first_item)}" />}
         assert_equal(link, prev_link(photo: second_item, list: list))
       end
 
@@ -321,7 +330,22 @@ describe PhotoHelpers do
         assert_equal(link, up_link(list: list, tag: "tag"))
       end
 
-      it "returns nil when no photo or tag is passed" do
+      it "includes /collections/collection?page=1 when the first item and a collection are passed" do
+        link = %{<link rel="up" href="/collections/collection?page=1" />}
+        assert_equal(link, up_link(photo: first_item, list: list, collection: "collection"))
+      end
+
+      it "includes /collections/collection?page=2 when the fourth item and a collection are passed" do
+        link = %{<link rel="up" href="/collections/collection?page=2" />}
+        assert_equal(link, up_link(photo: fourth_item, list: list, collection: "collection"))
+      end
+
+      it "includes /collections when a collection but no photo is passed" do
+        link = %{<link rel="up" href="/collections" />}
+        assert_equal(link, up_link(list: list, collection: "collection"))
+      end
+
+      it "returns nil when no photo, tag or collection is passed" do
         refute(up_link(list: list))
       end
     end

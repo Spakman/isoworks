@@ -29,6 +29,23 @@ describe PhotoList do
     end
   end
 
+  describe "#with_collection" do
+    let(:collection) { "outside" }
+    let(:sorted_fixtures) do
+      Fixtures.photos_collectioned_outside.values
+    end
+
+    it "returns a new PhotoList containing only photos with the passed collection" do
+      photolist.with_collection(collection).photos.each do |photo|
+        assert photo.collections.include?(collection), "#{photo} doesn't include collection '#{collection}'"
+      end
+    end
+
+    it "sorts the photolist by added_at date" do
+      assert_equal sorted_fixtures, photolist.with_collection(collection).photos
+    end
+  end
+
   describe "#find" do
     let(:photo) { Fixtures.photos[:kayak] }
 

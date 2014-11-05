@@ -17,7 +17,6 @@ class TagList < Hash
 
   def self.new_from_photo_list(photo_list)
     tag_list = self.new
-    all_tags = photo_list.photos.map { |photo| photo.tags.to_a }.flatten.uniq
     photo_list.photos.each do |photo|
       photo.tags.each do |tag|
         tag_list[tag] ||= []
