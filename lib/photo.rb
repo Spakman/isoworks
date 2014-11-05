@@ -29,36 +29,24 @@ class Photo
     object.kind_of?(self.class) && object.filepath == filepath
   end
 
-  def tags=(tags)
-    tags = [ tags ] unless tags.respond_to?(:each)
-    @tags = (@tags | tags).map(&:strip)
-    @tags.delete_if { |tag| tag.empty? }
-    write_attribute(:tags, @tags)
-  end
-
   def add_tag(tag)
-    self.tags = @tags + [ tag ]
+    self.tags << tag.strip unless tag.empty?
+    write_attribute(:tags, self.tags)
   end
 
   def remove_tag(tag)
     @tags.delete(tag)
-    self.tags = @tags.to_a
+    write_attribute(:tags, self.tags)
+  end
+
+  def add_collection(collection)
+    self.collections << collection.strip unless collection.empty?
+    write_attribute(:collections, self.collections)
   end
 
   def remove_collection(collection)
     @collections.delete(collection)
-    self.collections = @collections.to_a
-  end
-
-  def collections=(collections)
-    collections = [ collections ] unless collections.respond_to?(:each)
-    @collections = (@collections | collections).map(&:strip)
-    @collections.delete_if { |collection| collection.empty? }
-    write_attribute(:collections, @collections)
-  end
-
-  def add_collection(collection)
-    self.collections = @collections + [ collection ]
+    write_attribute(:collections, self.collections)
   end
 
   private

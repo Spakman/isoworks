@@ -101,7 +101,7 @@ describe Photo do
   describe "setting tags for a photo" do
     let(:fixture) { Fixtures.no_metadata }
     let(:tags) { %w( climbing scotland ) }
-    let(:collections) { %w( collection1 collection2 ) }
+  # let(:collections) { %w( collection1 collection2 ) }
 
     before do
       save_no_metadata
@@ -112,38 +112,14 @@ describe Photo do
       restore_no_metadata
     end
 
-    it "returns the array of tags as the attribute" do
-      @photo.tags = tags
-      assert_equal(tags, @photo.tags.to_a)
-    end
-
     it "sets user.isoworks.tags extended attribute on the file" do
-      @photo.tags = tags
-      assert_equal Xattr.new(@photo.filepath)["user.isoworks.tags"], @photo.tags.to_a.join("|")
+      tags.each { |tag| @photo.add_tag(tag) }
+      assert_equal(Xattr.new(@photo.filepath)["user.isoworks.tags"], @photo.tags.to_a.join("|"))
     end
 
-    it "merges the new and existing tags" do
-      existing_tags = %w( climbing existing )
-      @photo.tags = existing_tags
-      @photo.tags = tags
-      assert_equal (tags | existing_tags).sort, @photo.tags.sort
-    end
-
-    it "returns the array of collections as the attribute" do
-      @photo.collections = collections
-      assert_equal(collections, @photo.collections.to_a)
-    end
-
-    it "sets user.isoworks.collections extended attribute on the file" do
-      @photo.collections = collections
-      assert_equal @photo.collections.to_a.join("|"), Xattr.new(@photo.filepath)["user.isoworks.collections"]
-    end
-
-    it "merges the new and existing collections" do
-      existing_collections = %w( climbing existing )
-      @photo.collections = existing_collections
-      @photo.collections = collections
-      assert_equal (collections | existing_collections).sort, @photo.collections.sort
+    it "doesn't duplicate tags" do
+      @photo.add_tag("tag")
+      assert_equal(Set.new([ "tag" ]), @photo.tags)
     end
 
     it "adds a single tag to a photo using #add_tag" do
@@ -156,6 +132,41 @@ describe Photo do
       assert_includes(@photo.tags, "tag")
     end
 
+    it "doesn't add an empty tag" do
+      @photo.add_tag("")
+      refute_includes(@photo.tags, "")
+    end
+
+    it "removes a tag" do
+      @photo.add_tag("tag")
+      @photo.remove_tag("tag")
+      refute_includes(@photo.tags, "tag")
+    end
+  end
+
+  describe "setting collections for a photo" do
+    let(:fixture) { Fixtures.no_metadata }
+    let(:collections) { %w( collection1 collection2 ) }
+
+    before do
+      save_no_metadata
+      @photo = Photo.new("test/fixtures/no_metadata.jpg")
+    end
+
+    after do
+      restore_no_metadata
+    end
+
+    it "sets user.isoworks.collections extended attribute on the file" do
+      collections.each { |collection| @photo.add_collection(collection) }
+      assert_equal(Xattr.new(@photo.filepath)["user.isoworks.collections"], @photo.collections.to_a.join("|"))
+    end
+
+    it "doesn't duplicate collections" do
+      @photo.add_collection("collection")
+      assert_equal(Set.new([ "collection" ]), @photo.collections)
+    end
+
     it "adds a single collection to a photo using #add_collection" do
       @photo.add_collection("collection")
       assert_includes(@photo.collections, "collection")
@@ -166,20 +177,9 @@ describe Photo do
       assert_includes(@photo.collections, "collection")
     end
 
-    it "doesn't add an empty tag" do
-      @photo.add_tag("")
-      refute_includes(@photo.tags, "")
-    end
-
     it "doesn't add an empty collection" do
       @photo.add_collection("")
       refute_includes(@photo.collections, "")
-    end
-
-    it "removes a tag" do
-      @photo.add_tag("tag")
-      @photo.remove_tag("tag")
-      refute_includes(@photo.tags, "tag")
     end
 
     it "removes a collection" do
