@@ -45,11 +45,13 @@ class ISOworks < Sinatra::Base
 
   get "/" do
     @title = "All photos"
+    @selected = :all
     haml :photo_list
   end
 
   get "/tags" do
     @title = "Tags"
+    @selected = :tags
     @tag_list = TagList.new_from_photo_list(@list)
     @tag_list.extend(Paginatable)
     haml :tag_list
@@ -63,6 +65,7 @@ class ISOworks < Sinatra::Base
   get %r{^/#{UUID_CAPTURING_REGEX}} do |uuid|
     @photo = @list.find(uuid)
     @title = @photo.title
+    @selected = :all
     haml :photo
   end
 
@@ -82,6 +85,7 @@ class ISOworks < Sinatra::Base
     @list.extend(Paginatable)
     @photo = @list.find(uuid)
     @title = @photo.title
+    @selected = :tags
     haml :photo
   end
 
@@ -90,6 +94,7 @@ class ISOworks < Sinatra::Base
     @list = @@all_photos.with_tag(tag)
     @list.extend(Paginatable)
     @title = "#{tag} photos"
+    @selected = :tags
     haml :photo_list
   end
 

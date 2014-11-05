@@ -17,21 +17,18 @@
       %header
         %a{ href: url("/") }
           ISOworks
-      %nav#primaryNav<>
-        %ul<>
-          %li.selected<>
+      %nav#primaryNav
+        %ul
+          %li{ class: ("selected" if @selected == :all) }
             %a{ href: url("/") }
-              By upload date
-          %li
-            %a{ href: url("/date") }
-              By date taken
-          %li<>
+              All photos
+          %li{ class: ("selected" if @selected == :tags) }
             %a{ href: url("/tags") }
               Tags
-          %li<>
+          %li{ class: ("selected" if @selected == :collections) }
             %a{ href: url("/collections") }
               Collections
-          %li<>
+          %li
             %a{ href: url("/import") }
               Import
 
