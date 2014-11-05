@@ -11,7 +11,7 @@
 %aside
   %h2
     Tags
-  = tag_list(@photo)
+  = tags(@photo)
   %form#addTag(action="/#{@photo.uuid}/add_tag" method="post")
     %input{ type: "text", id: "tag", name: "tag", autofocus: "autofocus" }
     %input{ type: "submit", id: "tagSubmit", value: "Add tag" }

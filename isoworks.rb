@@ -52,7 +52,7 @@ class ISOworks < Sinatra::Base
     @title = "Tags"
     @tag_list = TagList.new_from_photo_list(@list)
     @tag_list.extend(Paginatable)
-    haml :tags
+    haml :tag_list
   end
 
   get "/import" do

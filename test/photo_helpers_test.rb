@@ -59,11 +59,11 @@ describe PhotoHelpers do
 
       before do
         @haml = false
-        tag_list(photo)
+        tags(photo)
       end
 
-      it "renders the :tag_list Haml template" do
-        assert_equal :tag_list, @haml[:template]
+      it "renders the :tags Haml template" do
+        assert_equal :tags, @haml[:template]
       end
 
       it "renders without a :layout" do
@@ -76,7 +76,7 @@ describe PhotoHelpers do
     end
 
     it "returns an empty string for the tag list when the photo has minimal metadata" do
-      assert_empty tag_list(minimal_metadata_photo)
+      assert_empty tags(minimal_metadata_photo)
     end
   end
 

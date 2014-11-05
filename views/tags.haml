@@ -1,11 +1,4 @@
-%ul.tagList
-  - @tag_list.items_for_page(@page).each do |tagged_photos|
-    %li<>
-      .item
-        %a{ href: url(tag_path(tagged_photos.tag)) }
-          .firstPhotos
-            = recent_photos(tagged_photos.photos)
-          .tag
-            = tagged_photos.tag
-
-= paginator(@page, @tag_list)
+%ul{ id: "tags" }
+  - @photo.tags.each do |tag|
+    %li<
+      %a{ href: url(tag_path(tag)) }&= tag

@@ -49,9 +49,9 @@ module PhotoHelpers
     end
   end
 
-  def tag_list(photo)
+  def tags(photo)
     if photo.tags.size > 0
-      haml :tag_list, layout: false, locals: { tags: photo.tags }
+      haml :tags, layout: false, locals: { tags: photo.tags }
     else
       ""
     end
