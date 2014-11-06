@@ -131,7 +131,7 @@ ul.arrayAttributeList {
     background: #999;
   }
 
-  ul.arrayAttributeList .tag {
+  ul.arrayAttributeList .tag, ul.arrayAttributeList .collection {
     font-size: 1.3em;
     margin-top: 0.5em;
   }
