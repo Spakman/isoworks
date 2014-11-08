@@ -1,5 +1,8 @@
 function TagManager () {
   this.addTagForm = document.getElementById("addTag");
+  if (!this.addTagForm) {
+    return;
+  }
   this.addTagForm.addEventListener("submit", this.addTagSubmitHandler.bind(this), false);
 
   var tags = document.getElementById("tags").children;
