@@ -15,3 +15,9 @@
   %form#addTag(action="/#{@photo.uuid}/add_tag" method="post")
     %input{ type: "text", id: "tag", name: "tag", autofocus: "autofocus" }
     %input{ type: "submit", id: "tagSubmit", value: "Add tag" }
+
+  %input{ type: "image", id: "fakeDelete", src: "/images/delete.png" }
+
+  %form{ id: "delete", action: "#{request.fullpath}/delete", method: "post" }
+    %input{ type: "button", id: "cancelDelete", value: "Cancel" }
+    %input{ type: "submit", id: "deleteSubmit", value: "Delete" }
