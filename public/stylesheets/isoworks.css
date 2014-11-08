@@ -162,14 +162,14 @@ h2 {
   display: inline-block;
   box-sizing: border-box;
   width: 270px;
-  padding: 10px;
+  padding: 20px;
   background: #bbb;
-  height: 830px;
+  height: 855px;
   box-shadow: 1px 1px 3px 2px #999;
 }
 
 .navigator {
-  height: 150px;
+  height: 125px;
   margin-bottom: 20px;
 }
 
