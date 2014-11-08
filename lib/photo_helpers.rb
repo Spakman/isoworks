@@ -147,6 +147,20 @@ module PhotoHelpers
     end
   end
 
+  def context_count(photo: nil, tag_list: nil, collection_list: nil, list: nil)
+    return if photo
+    if tag_list
+      size = tag_list.size
+      size > 1 ? "#{size} tags" : "1 tag"
+    elsif collection_list
+      size = collection_list.size
+      size > 1 ? "#{size} collections" : "1 collection"
+    elsif list
+      size = list.size
+      size > 1 ? "#{size} photos" : "1 photo"
+    end
+  end
+
   private
 
   def next_item(photo: nil, list: nil)

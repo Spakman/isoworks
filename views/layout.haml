@@ -37,6 +37,8 @@
 
       = yield
       %footer
-        %a{ href: "https://github.com/Spakman/isoworks" }<
-          ISOworks
-        is free software.
+        = context_count(photo: @photo, tag_list: @tag_list, collection_list: @collection_list, list: @list)
+        .isoworks
+          %a{ href: "https://github.com/Spakman/isoworks" }<
+            ISOworks
+          is free software.

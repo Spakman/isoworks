@@ -439,8 +439,14 @@ aside {
 footer {
   clear: both;
   border-top: 3px solid #888;
-  text-align: right;
+  text-align: left;
   padding-top: 0.5em;
   margin-top: 3em;
   font-size: 0.8em;
+  height: 20px;
 }
+
+  footer .isoworks {
+    float: right;
+  }
+

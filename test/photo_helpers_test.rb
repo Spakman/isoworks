@@ -360,4 +360,48 @@ describe PhotoHelpers do
       assert_equal("Tagged: tag", filter_title(tag: "tag"))
     end
   end
+
+  describe "#context_count" do
+    let(:photo) { :something }
+
+    it "returns nil if a photo is given" do
+      refute(context_count(photo: photo))
+    end
+
+    describe "viewing a list of photos" do
+      let(:photo) { nil }
+
+      it 'returns "3 photos" if no photo is given and a list size of 3' do
+        assert_equal("3 photos", context_count(photo: photo, list: Array.new(3)))
+      end
+
+      it 'returns "1 photo" if no photo is given and a list size of 1' do
+        assert_equal("1 photo", context_count(photo: photo, list: Array.new(1)))
+      end
+    end
+
+    describe "viewing the list of tags" do
+      let(:photo) { nil }
+
+      it 'returns "3 tags" if no photo is given and a tag_list size of 3' do
+        assert_equal("3 tags", context_count(photo: photo, tag_list: Array.new(3)))
+      end
+
+      it 'returns "1 tag" if no photo is given and a tag_list size of 1' do
+        assert_equal("1 tag", context_count(photo: photo, tag_list: Array.new(1)))
+      end
+    end
+
+    describe "viewing the list of collections" do
+      let(:photo) { nil }
+
+      it 'returns "3 collections" if no photo is given and a collection_list size of 3' do
+        assert_equal("3 collections", context_count(photo: photo, collection_list: Array.new(3)))
+      end
+
+      it 'returns "1 collection" if no photo is given and a collection_list size of 1' do
+        assert_equal("1 collection", context_count(photo: photo, collection_list: Array.new(1)))
+      end
+    end
+  end
 end
