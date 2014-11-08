@@ -14,7 +14,7 @@
   = tags(@photo)
   %form#addTag(action="/#{@photo.uuid}/add_tag" method="post")
     %input{ type: "text", id: "tag", name: "tag", autofocus: "autofocus" }
-    %input{ type: "submit", id: "tagSubmit", value: "Add tag" }
+    %input{ type: "image", id: "tagSubmit", src: "/images/add.png" }
 
   %input{ type: "image", id: "fakeDelete", src: "/images/delete.png" }
 
