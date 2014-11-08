@@ -35,6 +35,10 @@ module PhotoHelpers
     "/photos/900/#{u(photo.filename)}"
   end
 
+  def photo_path_original(photo)
+    "/photos/originals/#{u(photo.filename)}"
+  end
+
   def image_srcset(photo)
     %Q{
     <img

@@ -16,6 +16,9 @@
     %input{ type: "text", id: "tag", name: "tag", autofocus: "autofocus" }
     %input{ type: "image", id: "tagSubmit", src: "/images/add.png" }
 
+  %a{ id: "fullSize", href: photo_path_original(@photo) }
+    %img{ src: "/images/full_size.png" }
+
   %input{ type: "image", id: "fakeDelete", src: "/images/delete.png" }
 
   %form{ id: "delete", action: "#{request.fullpath}/delete", method: "post" }
