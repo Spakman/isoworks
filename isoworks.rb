@@ -40,6 +40,8 @@ class ISOworks < Sinatra::Base
     @photo = false
     @tag = false
     @collection = false
+    @tag_list = false
+    @collection_list = false
     @page = params.fetch("page") { 1 }.to_i
     @list = @@all_photos
     @list.extend(Paginatable)
