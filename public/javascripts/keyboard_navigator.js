@@ -27,5 +27,3 @@ function KeyboardNavigator () {
     }
   }
 }).apply(KeyboardNavigator.prototype);
-
-var keyboardNavigator = new KeyboardNavigator();

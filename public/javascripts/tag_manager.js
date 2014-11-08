@@ -83,7 +83,3 @@ function TagManager () {
     this.addDeleteFormsToListItem(li);
   }
 }).apply(TagManager.prototype);
-
-window.onload = function () {
-  var tagManager = new TagManager();
-}

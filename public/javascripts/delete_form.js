@@ -32,7 +32,3 @@ function DeleteForm () {
     element.style.display = "none";
   };
 }).apply(DeleteForm.prototype);
-
-window.onload = function () {
-  var deleteForm = new DeleteForm();
-}
