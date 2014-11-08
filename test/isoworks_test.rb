@@ -290,4 +290,88 @@ describe ISOworks do
       assert_equal Paginatable::PER_PAGE, Regexp.last_match(:tags_list).scan(/<li>/).size
     end
   end
+
+  describe "deleting a photo" do
+    let(:photos) { Fixtures.photos_tagged_juggling.values }
+    let(:first_photo) { photos.first }
+    let(:second_photo) { photos[1] }
+    let(:third_photo) { photos.last }
+    let(:list) { PhotoList.new(photos) }
+
+    before do
+      save_file(:mark_px3s)
+    end
+
+    after do
+      restore_file(:mark_px3s)
+      get "/import"
+    end
+
+    describe "when in a tag list" do
+      let(:juggling_list_path) { "/tags/juggling" }
+
+      before do
+        save_file(:mark_px3s)
+        post "#{photo_page_path(photo: first_photo, tag: "juggling")}/delete"
+      end
+
+      it "removes the photo from the filesystem and the list of photos" do
+        refute(File.exist?("#{__dir__}/../#{first_photo.filepath}"))
+      end
+
+      it "removes the photo from list of photos" do
+        follow_redirect!
+        refute_includes(last_response.body, first_photo.filepath)
+      end
+
+      it "redirects to the list page" do
+        assert(last_response.redirect?)
+        assert_equal(juggling_list_path, URI(last_response.headers["Location"]).path)
+      end
+    end
+
+    describe "when in a collection list" do
+      let(:juggling_list_path) { "/collections/outside" }
+
+      before do
+        post "#{photo_page_path(photo: first_photo, collection: "outside")}/delete"
+      end
+
+      it "removes the photo from the filesystem and the list of photos" do
+        refute(File.exist?("#{__dir__}/../#{first_photo.filepath}"))
+      end
+
+      it "removes the photo from list of photos" do
+        follow_redirect!
+        refute_includes(last_response.body, first_photo.filepath)
+      end
+
+      it "redirects to the list page" do
+        assert(last_response.redirect?)
+        assert_equal(juggling_list_path, URI(last_response.headers["Location"]).path)
+      end
+    end
+
+    describe "when in a photo list" do
+      let(:list_path) { "/" }
+
+      before do
+        post "#{photo_page_path(photo: first_photo)}/delete"
+      end
+
+      it "removes the photo from the filesystem and the list of photos" do
+        refute(File.exist?("#{__dir__}/../#{first_photo.filepath}"))
+      end
+
+      it "removes the photo from list of photos" do
+        follow_redirect!
+        refute_includes(last_response.body, first_photo.filepath)
+      end
+
+      it "redirects to the list page" do
+        assert(last_response.redirect?)
+        assert_equal(list_path, URI(last_response.headers["Location"]).path)
+      end
+    end
+  end
 end

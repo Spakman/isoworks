@@ -49,6 +49,10 @@ class Photo
     write_attribute(:collections, self.collections)
   end
 
+  def delete!
+    FileUtils.rm(filepath)
+  end
+
   private
 
   def setup_uuid

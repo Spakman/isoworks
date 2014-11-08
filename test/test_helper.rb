@@ -30,6 +30,15 @@ def restore_no_metadata
   FileUtils.mv("#{__dir__}/fixtures/no_metadata.jpg.original", "#{__dir__}/fixtures/no_metadata.jpg")
 end
 
+def save_file(fixture)
+  system("rsync -X #{__dir__}/fixtures/photos/#{fixture}.jpg #{__dir__}/fixtures/photos/#{fixture}.jpg.original")
+end
+
+def restore_file(fixture)
+  FileUtils.mv("#{__dir__}/fixtures/photos/#{fixture}.jpg.original", "#{__dir__}/fixtures/photos/#{fixture}.jpg")
+end
+
+
 module Paginatable
   remove_const(:PER_PAGE)
   PER_PAGE = 3

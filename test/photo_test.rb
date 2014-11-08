@@ -101,7 +101,6 @@ describe Photo do
   describe "setting tags for a photo" do
     let(:fixture) { Fixtures.no_metadata }
     let(:tags) { %w( climbing scotland ) }
-  # let(:collections) { %w( collection1 collection2 ) }
 
     before do
       save_no_metadata
@@ -186,6 +185,23 @@ describe Photo do
       @photo.add_collection("collection")
       @photo.remove_collection("collection")
       refute_includes(@photo.collections, "collection")
+    end
+  end
+
+  describe "deleting" do
+    let(:photo) { Photo.new(Fixtures.photos[:px3s].filepath) }
+
+    before do
+      save_file(:mark_px3s)
+    end
+
+    after do
+      restore_file(:mark_px3s)
+    end
+
+    it "removes the file from the filesystem" do
+      photo.delete!
+      refute(File.exist?("#{__dir__}/../#{photo.filepath}"))
     end
   end
 end
