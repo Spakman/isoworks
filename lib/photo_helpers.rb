@@ -67,6 +67,14 @@ module PhotoHelpers
     end
   end
 
+  def collections(photo)
+    if photo.collections.size > 0
+      haml :collections, layout: false, locals: { collections: photo.collections }
+    else
+      '<div id="none">None</div>'
+    end
+  end
+
   def paragraphize(text)
     if text && !text.empty?
       "<p>#{h(text).gsub("\n\n", "</p>\n<p>")}</p>"

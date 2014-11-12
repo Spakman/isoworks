@@ -7,7 +7,8 @@
     %link{ href: url("/stylesheets/isoworks.css"), rel: "stylesheet" }
     %script{ type: "text/javascript", src: "/javascripts/keyboard_navigator.js" }
     %script{ type: "text/javascript", src: "/javascripts/tag_manager.js" }
-    %script{ type: "text/javascript", src: "/javascripts/delete_form.js" }
+    %script{ type: "text/javascript", src: "/javascripts/collection_manager.js" }
+    %script{ type: "text/javascript", src: "/javascripts/hidden_form.js" }
     = prev_link(photo: @photo, list: @list, tag: @tag, collection: @collection)
     = next_link(photo: @photo, list: @list, tag: @tag, collection: @collection)
     = up_link(photo: @photo, list: @list, tag: @tag, collection: @collection)
@@ -17,7 +18,19 @@
       window.onload = function () {
       var keyboardNavigator = new KeyboardNavigator();
       var tagManager = new TagManager();
-      var deleteForm = new DeleteForm();
+      var collectionManager = new CollectionManager();
+      var deleteForm = new HiddenForm({
+      formId: "delete",
+      showButtonId: "fakeDelete",
+      cancelButtonId: "cancelDelete"
+      });
+      var collectionsForm = new HiddenForm({
+      formId: "addCollection",
+      showButtonId: "showAddCollection",
+      cancelButtonId: "cancelAddCollection",
+      textFieldId: "collection",
+      hide: "none"
+      });
       }
       //]]>
 

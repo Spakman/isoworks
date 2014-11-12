@@ -164,7 +164,7 @@ describe ISOworks do
       end
 
       it "has an <li> with a <a> for each of the tags" do
-        last_response.body =~ /(?<tags_list><ul id="tags">.+<\/li>)/m
+        last_response.body =~ /(?<tags_list><ul id="tags">.+?<\/ul>)/m
         assert_equal photo.tags.size, Regexp.last_match(:tags_list).scan(/<li><a /).size
       end
 

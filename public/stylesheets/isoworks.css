@@ -291,6 +291,77 @@ section {
     border: 1px solid red;
   }
 
+.collections {
+  position: relative;
+  text-align: left;
+}
+
+  .collections #none {
+    font-size: 0.9em;
+    padding: 0 2px;
+  }
+
+  .collections li {
+    position: relative;
+  }
+
+  .collections .delete {
+    position: absolute;
+    top: -5px;
+    right: 2px;
+    opacity: 0;
+  }
+
+  .collections .delete:hover {
+    opacity: 1;
+  }
+
+  #addCollection {
+    display: none;
+  }
+
+  #addCollectionSubmit {
+    position: absolute;
+    right: 2px;
+  }
+
+  #cancelAddCollection {
+    position: absolute;
+    right: 30px;
+  }
+
+  #showAddCollection {
+    position: absolute;
+    opacity: 0;
+    top: 12px;
+    right: 2px;
+  }
+
+  #showAddCollection:hover {
+    opacity: 1;
+  }
+
+  .collections #collection {
+    width: 170px;
+  }
+
+  .collections #collections {
+    list-style-type: circle;
+    text-align: left;
+    padding: 0 0 0 20px;
+    clear: both;
+  }
+
+    .collections #collections li {
+      margin-bottom: 3px;
+    }
+
+      .collections #collections li a {
+        font-size: 0.9em;
+        color: #505050;
+        text-decoration: none;
+      }
+
 form.addTag {
   width: 100%;
 }
@@ -300,15 +371,16 @@ form.addTag {
     width: 24px;
   }
 
-  #tag {
+  #tag, #collection {
     float: left;
-    width: 85%;
+    width: 200px;
     outline: none;
     background: #ddd;
     border: 1px solid #888;
     border-radius: 1em 2em 2em 1em;
     padding: 2px 6px;
     margin-left: 2px;
+    margin-bottom: 20px;
     box-sizing: border-box;
     height: 24px;
     color: #505050;

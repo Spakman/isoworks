@@ -86,9 +86,19 @@ class ISOworks < Sinatra::Base
     @photo.add_tag(params[:tag])
   end
 
+  post %r{^/#{UUID_CAPTURING_REGEX}/add_collection} do |uuid|
+    @photo = @list.find(uuid)
+    @photo.add_collection(params[:collection])
+  end
+
   post %r{^/#{UUID_CAPTURING_REGEX}/delete_tag} do |uuid|
     @photo = @list.find(uuid)
     @photo.remove_tag(params[:tag])
+  end
+
+  post %r{^/#{UUID_CAPTURING_REGEX}/delete_collection} do |uuid|
+    @photo = @list.find(uuid)
+    @photo.remove_collection(params[:collection])
   end
 
   post %r{^/#{UUID_CAPTURING_REGEX}/delete} do |uuid|

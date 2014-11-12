@@ -12,7 +12,20 @@
   = tags(@photo)
   %form#addTag(action="/#{@photo.uuid}/add_tag" method="post")
     %input{ type: "text", id: "tag", name: "tag", autofocus: "autofocus" }
-    %input{ type: "image", id: "tagSubmit", src: "/images/add.png" }
+    %input{ type: "image", id: "tagSubmit", src: "/images/submit.png" }
+
+  .collections
+    %h2
+      Collections
+
+    %input{ type: "image", id: "showAddCollection", src: "/images/add.png" }
+
+    %form{ id: "addCollection", action: "/#{@photo.uuid}/add_collection", method: "post" }
+      %input{ type: "text", id: "collection", name: "collection" }
+      %input{ type: "image", id: "addCollectionSubmit", src: "/images/submit.png" }
+      %input{ type: "image", id: "cancelAddCollection", src: "/images/cancel.png" }
+
+    = collections(@photo)
 
   %a{ id: "fullSize", href: photo_path_original(@photo) }
     %img{ src: "/images/full_size.png" }

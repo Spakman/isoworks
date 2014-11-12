@@ -1,0 +1,4 @@
+%ul{ id: "collections" }
+  - collections.each do |tag|
+    %li<
+      %a{ href: url(collection_path(tag)) }&= tag
