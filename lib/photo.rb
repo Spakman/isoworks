@@ -4,7 +4,7 @@ require "set"
 require "ffi-xattr"
 
 class Photo
-  attr_reader :uuid, :title, :description, :tags, :collections, :filepath, :filename, :added_at
+  attr_reader :uuid, :title, :description, :tags, :collections, :filepath, :filename, :added_at, :taken_at, :camera, :f_stop, :exposure, :width, :height
 
   def initialize(filepath)
     @filepath = filepath
@@ -14,11 +14,23 @@ class Photo
 
     @title = read_attribute(:title) || ""
     @description = read_attribute(:description) || ""
+
     if time = read_attribute(:added_at)
       @added_at = Time.parse(time)
     else
       @added_at = Time.now
     end
+    if time = read_attribute(:taken_at)
+      @taken_at = Time.parse(time)
+    else
+      @taken_at = nil
+    end
+    @camera = read_attribute(:camera)
+    @f_stop = read_attribute(:f_stop)
+    @exposure = read_attribute(:exposure)
+    @width = read_attribute(:width)
+    @height = read_attribute(:height)
+
     xattr_tags = read_attribute(:tags)
     @tags = xattr_tags ? Set.new(xattr_tags.split("|")) : Set.new
     xattr_collections = read_attribute(:collections)

@@ -9,6 +9,7 @@
 %aside
   %h2
     Tags
+  %hr
   = tags(@photo)
   %form#addTag(action="/#{@photo.uuid}/add_tag" method="post")
     %input{ type: "text", id: "tag", name: "tag", autofocus: "autofocus" }
@@ -17,6 +18,7 @@
   .collections
     %h2
       Collections
+    %hr
 
     %input{ type: "image", id: "showAddCollection", src: "/images/add.png" }
 
@@ -26,6 +28,41 @@
       %input{ type: "image", id: "cancelAddCollection", src: "/images/cancel.png" }
 
     = collections(@photo)
+
+  .metadata
+    %h2
+      Metadata
+    %hr
+
+    %dl
+      %dt
+        Taken:
+      %dd
+        = format_date(@photo.taken_at)
+      %dt
+        Camera:
+      %dd
+        = @photo.camera || "Unknown"
+      %dt
+        F-stop:
+      %dd
+        = @photo.f_stop || "Unknown"
+      %dt
+        Exposure:
+      %dd
+        = @photo.exposure || "Unknown"
+      %dt
+        Size:
+      %dd
+        = size(@photo)
+      %dt
+        Added:
+      %dd
+        = format_date(@photo.added_at)
+      %dt
+        UUID:
+      %dd
+        = @photo.uuid
 
   %a{ id: "fullSize", href: photo_path_original(@photo) }
     %img{ src: "/images/full_size.png" }

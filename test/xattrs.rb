@@ -14,7 +14,13 @@ module Fixtures
       description: "I had wanted to go to Fidra since I was wee.\n\nIt is rather cool!",
       tags: [ "north berwick", "kayaking", "east lothian", "scotland" ],
       collections: [ "outside" ],
-      added_at: Time.now
+      added_at: Time.now,
+      taken_at: Time.now,
+      camera: "Ultrasnapper",
+      f_stop: "2.0",
+      exposure: "1/50",
+      width: "1920",
+      height: "1200"
     },
     px3s: {
       filepath: "test/fixtures/photos/mark_px3s.jpg",
@@ -70,6 +76,12 @@ module Fixtures
     xattr["user.isoworks.collections"] = fixture[:collections].join("|") if fixture[:collections]
     xattr["user.isoworks.added_at"] = fixture[:added_at]
     xattr["user.isoworks.uuid"] = fixture[:uuid]
+    xattr["user.isoworks.taken_at"] = fixture[:taken_at]
+    xattr["user.isoworks.camera"] = fixture[:camera]
+    xattr["user.isoworks.f_stop"] = fixture[:f_stop]
+    xattr["user.isoworks.exposure"] = fixture[:exposure]
+    xattr["user.isoworks.width"] = fixture[:width]
+    xattr["user.isoworks.height"] = fixture[:height]
   end
 
   @photos = {}

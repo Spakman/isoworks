@@ -169,6 +169,22 @@ module PhotoHelpers
     end
   end
 
+  def format_date(time)
+    if time
+      time.strftime("%H:%M %d %b %Y")
+    else
+      "Unknown"
+    end
+  end
+
+  def size(photo)
+    if photo.width && photo.height
+      "#{photo.width}x#{photo.height}"
+    else
+      "Unknown"
+    end
+  end
+
   private
 
   def next_item(photo: nil, list: nil)
