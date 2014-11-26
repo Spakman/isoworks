@@ -141,7 +141,7 @@ module PhotoHelpers
   def up_link(photo: nil, list: nil, tag: nil, collection: nil)
     if photo
       if tag
-        %{<link rel="up" href="#{tag_path(tag)}?page=#{list.page_number_for(photo)}" />}
+        %{<link rel="up" href="#{multi_tag_path(tag)}?page=#{list.page_number_for(photo)}" />}
       elsif collection
         %{<link rel="up" href="#{collection_path(collection)}?page=#{list.page_number_for(photo)}" />}
       else
