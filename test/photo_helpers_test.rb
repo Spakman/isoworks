@@ -26,8 +26,8 @@ describe PhotoHelpers do
       assert_equal "/photos/thumb/#{url_escaped_text}", thumb_photo_path(photo)
     end
 
-    it "returns a string of the URL escaped tags viewing path" do
-      assert_equal "/tags/#{url_escaped_text}", tag_path(unsafe_text)
+    it "returns a string of the double quoted URL escaped tags viewing path" do
+      assert_equal "/tags/%22#{url_escaped_text}%22", tag_path(unsafe_text)
     end
 
     it "returns a non-tagged photo page URL when no tag is passed" do
@@ -378,6 +378,10 @@ describe PhotoHelpers do
       it 'returns "1 photo" if no photo is given and a list size of 1' do
         assert_equal("1 photo", context_count(photo: photo, list: Array.new(1)))
       end
+
+      it 'returns nil if no photo is given and a list size of 0' do
+        assert_nil(context_count(photo: photo, list: Array.new(0)))
+      end
     end
 
     describe "viewing the list of tags" do
@@ -390,6 +394,10 @@ describe PhotoHelpers do
       it 'returns "1 tag" if no photo is given and a tag_list size of 1' do
         assert_equal("1 tag", context_count(photo: photo, tag_list: Array.new(1)))
       end
+
+      it 'returns nil if no photo is given and a tag_list size of 0' do
+        assert_nil(context_count(photo: photo, tag_list: Array.new(0)))
+      end
     end
 
     describe "viewing the list of collections" do
@@ -401,6 +409,10 @@ describe PhotoHelpers do
 
       it 'returns "1 collection" if no photo is given and a collection_list size of 1' do
         assert_equal("1 collection", context_count(photo: photo, collection_list: Array.new(1)))
+      end
+
+      it 'returns nil if no photo is given and a collection_list size of 0' do
+        assert_nil(context_count(photo: photo, collection_list: Array.new(0)))
       end
     end
   end

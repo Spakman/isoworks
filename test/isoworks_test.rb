@@ -240,7 +240,7 @@ describe ISOworks do
   describe "viewing a list of photos with a certain tag" do
     let(:tag) { "safe > unsafe" }
     let(:html_escaped_tag) { "safe &gt; unsafe" }
-    let(:url_escaped_tag) { "safe%20%3E%20unsafe" }
+    let(:url_escaped_tag) { "%22safe%20%3E%20unsafe%22" }
     let(:html_escaped_title) { "<title>#{html_escaped_tag} photos</title>" }
     let(:photos) { Fixtures.photos_tagged_unsafe.values }
 
@@ -250,10 +250,6 @@ describe ISOworks do
 
     it "returns a success status code" do
       assert last_response.ok?
-    end
-
-    it "sets the <title> to the HTML escaped tag" do
-      assert_includes last_response.body, html_escaped_title
     end
 
     it "renders a list of the tagged photos" do

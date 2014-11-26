@@ -1,5 +1,6 @@
 require "sinatra"
 require "haml"
+require_relative "lib/search_term_parser"
 require_relative "lib/photo"
 require_relative "lib/photo_list"
 require_relative "lib/photo_helpers"
@@ -125,9 +126,15 @@ class ISOworks < Sinatra::Base
     end
   end
 
-  get %r{^/tags/(.+)/#{UUID_CAPTURING_REGEX}} do |tag, uuid|
-    @tag = tag
-    @list = @@all_photos.with_tag(@tag)
+  get %r{^/tags/(.+)/#{UUID_CAPTURING_REGEX}} do |tags, uuid|
+    @tag = tags.dup
+    search_parser = SearchTermParser.new(tags)
+
+    @list = @@all_photos
+    search_parser.tags.each do |tag|
+      @list = @list.with_tag(tag)
+    end
+
     @list.extend(Paginatable)
     @photo = @list.find(uuid)
     @title = @photo.title
@@ -145,11 +152,17 @@ class ISOworks < Sinatra::Base
     haml :photo
   end
 
-  get "/tags/:tag" do |tag|
-    @tag = tag
-    @list = @@all_photos.with_tag(tag)
+  get "/tags/:tags" do |tags|
+    @tag = tags.dup
+    search_parser = SearchTermParser.new(tags)
+
+    @list = @@all_photos
+    search_parser.tags.each do |tag|
+      @list = @list.with_tag(tag)
+    end
+
     @list.extend(Paginatable)
-    @title = "#{tag} photos"
+    @title = "#{tags} photos"
     @selected = :tags
     haml :photo_list
   end

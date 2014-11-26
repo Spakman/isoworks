@@ -20,6 +20,7 @@ header {
   }
 
 #primaryNav {
+  position: relative;
   box-sizing: border-box;
   background: #444;
   margin: 0.25em 0 1em 0;
@@ -64,6 +65,24 @@ header {
       color: white;
       font-weight: bold;
     }
+
+    #primaryNav form {
+      position: absolute;
+      top: 5px;
+      right: 0;
+      width: 360px;
+    }
+
+      #primaryNav form #searchTerms {
+        position: absolute;
+        right: 43px;
+        width: 300px;
+      }
+
+      #primaryNav form #searchSubmit {
+        position: absolute;
+        right: 15px;
+      }
 
 .tag {
   float: right;
@@ -412,7 +431,7 @@ form.addTag {
     width: 24px;
   }
 
-  #tag, #collection {
+  #tag, #collection, #searchTerms {
     float: left;
     width: 200px;
     outline: none;

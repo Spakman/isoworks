@@ -9,6 +9,7 @@
     %script{ type: "text/javascript", src: "/javascripts/tag_manager.js" }
     %script{ type: "text/javascript", src: "/javascripts/collection_manager.js" }
     %script{ type: "text/javascript", src: "/javascripts/hidden_form.js" }
+    %script{ type: "text/javascript", src: "/javascripts/search_form.js" }
     = prev_link(photo: @photo, list: @list, tag: @tag, collection: @collection)
     = next_link(photo: @photo, list: @list, tag: @tag, collection: @collection)
     = up_link(photo: @photo, list: @list, tag: @tag, collection: @collection)
@@ -16,7 +17,7 @@
     %script{ type: "text/javascript", charset: "utf-8"}
       //<![CDATA[
       window.onload = function () {
-      var keyboardNavigator = new KeyboardNavigator();
+      var keyboardNavigator = new KeyboardNavigator("searchTerms");
       var tagManager = new TagManager();
       var collectionManager = new CollectionManager();
       var deleteForm = new HiddenForm({
@@ -30,6 +31,10 @@
       cancelButtonId: "cancelAddCollection",
       textFieldId: "collection",
       hide: "none"
+      });
+      var searchForm = new SearchForm({
+      formId: "searchForm",
+      searchTerms: "searchTerms"
       });
       }
       //]]>
@@ -55,6 +60,9 @@
           %li
             %a{ href: url("/import") }
               Import
+        %form{ action: "/tags", id: "searchForm", method: "get" }
+          %input{ type: "text", id: "searchTerms" }
+          %input{ type: "image", id: "searchSubmit", src: "/images/search.png" }
 
       = yield
       %footer

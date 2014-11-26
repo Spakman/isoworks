@@ -1,8 +1,11 @@
-%ul.photoList
-  - @list.items_for_page(@page).each do |photo|
-    %li<>
-      .item
-        %a{ href: url(photo_page_path(photo: photo, tag: @tag, collection: @collection)) }
-          %img{ src: url(small_photo_path(photo)), alt: photo.title }
+- if @list.size == 0
+  No photos.
+- else
+  %ul.photoList
+    - @list.items_for_page(@page).each do |photo|
+      %li<>
+        .item
+          %a{ href: url(photo_page_path(photo: photo, tag: @tag, collection: @collection)) }
+            %img{ src: url(small_photo_path(photo)), alt: photo.title }
 
-= paginator(@page, @list)
+  = paginator(@page, @list)

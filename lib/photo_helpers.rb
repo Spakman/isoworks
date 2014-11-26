@@ -16,6 +16,13 @@ module PhotoHelpers
   end
 
   def tag_path(tag)
+    if tag.include?(" ")
+      tag = %{"#{tag}"}
+    end
+    "/tags/#{u(tag)}"
+  end
+
+  def multi_tag_path(tag)
     "/tags/#{u(tag)}"
   end
 
@@ -51,7 +58,7 @@ module PhotoHelpers
 
   def photo_page_path(photo: photo, tag: nil, collection: nil)
     if tag
-      "#{tag_path(tag)}/#{u(photo.uuid)}"
+      "#{multi_tag_path(tag)}/#{u(photo.uuid)}"
     elsif collection
       "#{collection_path(collection)}/#{u(photo.uuid)}"
     else
@@ -159,13 +166,25 @@ module PhotoHelpers
     return if photo
     if tag_list
       size = tag_list.size
-      size > 1 ? "#{size} tags" : "1 tag"
+      if size > 1
+        "#{size} tags"
+      elsif size == 1
+        "1 tag"
+      end
     elsif collection_list
       size = collection_list.size
-      size > 1 ? "#{size} collections" : "1 collection"
+      if size > 1
+        "#{size} collections"
+      elsif size == 1
+        "1 collection"
+      end
     elsif list
       size = list.size
-      size > 1 ? "#{size} photos" : "1 photo"
+      if size > 1
+        "#{size} photos"
+      elsif size == 1
+        "1 photo"
+      end
     end
   end
 
