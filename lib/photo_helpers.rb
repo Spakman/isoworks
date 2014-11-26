@@ -204,6 +204,23 @@ module PhotoHelpers
     end
   end
 
+  def metadata(title, data)
+    output = ""
+    if data
+      output = %{
+        <dt>
+          #{h(title)}:
+        </dt>
+        <dd>
+          <div class="data">
+            #{data}
+          </div>
+        </dd>
+      }
+
+    end
+  end
+
   private
 
   def next_item(photo: nil, list: nil)

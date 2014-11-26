@@ -4,7 +4,7 @@ require "set"
 require "ffi-xattr"
 
 class Photo
-  attr_reader :uuid, :title, :description, :tags, :collections, :filepath, :filename, :added_at, :taken_at, :camera, :f_stop, :exposure, :width, :height
+  attr_reader :uuid, :title, :description, :tags, :collections, :filepath, :filename, :added_at, :taken_at, :camera, :f_stop, :exposure, :width, :height, :flash, :iso, :whitebalance, :lat, :lon, :altitude, :exposure_mode
 
   def initialize(filepath)
     @filepath = filepath
@@ -28,6 +28,13 @@ class Photo
     @camera = read_attribute(:camera)
     @f_stop = read_attribute(:f_stop)
     @exposure = read_attribute(:exposure)
+    @exposure_mode = read_attribute(:exposure_mode)
+    @flash = read_attribute(:flash)
+    @iso = read_attribute(:iso)
+    @whitebalance = read_attribute(:whitebalance)
+    @lat = read_attribute(:lat)
+    @lon = read_attribute(:lon)
+    @altitude = read_attribute(:altitude)
     @width = read_attribute(:width)
     @height = read_attribute(:height)
 

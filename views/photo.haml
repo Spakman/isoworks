@@ -35,34 +35,20 @@
     %hr
 
     %dl
-      %dt
-        Taken:
-      %dd
-        = format_date(@photo.taken_at)
-      %dt
-        Camera:
-      %dd
-        = @photo.camera || "Unknown"
-      %dt
-        F-stop:
-      %dd
-        = @photo.f_stop || "Unknown"
-      %dt
-        Exposure:
-      %dd
-        = @photo.exposure || "Unknown"
-      %dt
-        Size:
-      %dd
-        = size(@photo)
-      %dt
-        Added:
-      %dd
-        = format_date(@photo.added_at)
-      %dt
-        UUID:
-      %dd
-        = @photo.uuid
+      = metadata("Taken", format_date(@photo.taken_at))
+      = metadata("Camera", @photo.camera)
+      = metadata("Aperture", @photo.f_stop)
+      = metadata("Exposure", @photo.exposure)
+      = metadata("ISO", @photo.iso)
+      = metadata("Whitebalance", @photo.whitebalance)
+      = metadata("Mode", @photo.exposure_mode)
+      = metadata("Flash", @photo.flash)
+      = metadata("Latitude", @photo.lat)
+      = metadata("Longitude", @photo.lon)
+      = metadata("Altitude", @photo.altitude)
+      = metadata("Size", size(@photo))
+      = metadata("Added", format_date(@photo.added_at))
+      = metadata("UUID", @photo.uuid)
 
   %a{ id: "fullSize", href: photo_path_original(@photo) }
     %img{ src: "/images/full_size.png" }

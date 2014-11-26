@@ -1,6 +1,7 @@
 gem "ffi-xattr"
 gem "sinatra"
 gem "haml"
+gem "exifr"
 gem "thin", "~> 1.6"
 
 group :test do

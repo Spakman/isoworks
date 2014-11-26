@@ -66,30 +66,29 @@ header {
       font-weight: bold;
     }
 
-    #primaryNav form {
+  #primaryNav form {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    width: 360px;
+  }
+
+    #primaryNav form #searchTerms {
       position: absolute;
-      top: 5px;
-      right: 0;
-      width: 360px;
+      right: 43px;
+      width: 300px;
     }
 
-      #primaryNav form #searchTerms {
-        position: absolute;
-        right: 43px;
-        width: 300px;
-      }
-
-      #primaryNav form #searchSubmit {
-        position: absolute;
-        right: 15px;
-      }
+    #primaryNav form #searchSubmit {
+      position: absolute;
+      right: 15px;
+    }
 
 .tag {
   float: right;
 }
 
 ul.photoList, ul.arrayAttributeList {
-
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -105,13 +104,13 @@ ul.photoList, ul.arrayAttributeList {
     justify-content: center;
     margin-top: -1px;
     margin-right: -1px;
-    border: 1px solid #999;
+    border: 1px solid #888;
     width: 300px;
     height: 301px;
   }
 
   ul.photoList li:hover, ul.arrayAttributeList li:hover {
-    background: #bbb;
+    background: #aaa;
   }
 
     ul.photoList li .item, ul.arrayAttributeList .item  {
@@ -179,7 +178,7 @@ h2 {
 }
 
 hr {
-  margin-top: 2px;
+  margin-top: 3px;
   border-top: 1px solid #999;
   border-bottom: 1px solid #bbb;
 }
@@ -187,15 +186,15 @@ hr {
 .navigator, aside {
   display: inline-block;
   box-sizing: border-box;
-  width: 270px;
-  padding: 20px;
+  width: 300px;
+  padding: 15px;
   background: #aaa;
-  height: 855px;
+  height: 865px;
   box-shadow: 1px 1px 3px 2px #888;
 }
 
 .navigator {
-  height: 125px;
+  height: 115px;
   margin-bottom: 20px;
 }
 
@@ -213,7 +212,7 @@ article {
   }
 
   section {
-    width: 930px;
+    width: 900px;
   }
 }
 
@@ -223,7 +222,7 @@ article {
   }
 
   section {
-    width: 1230px;
+    width: 1200px;
   }
 }
 
@@ -233,7 +232,7 @@ article {
   }
 
   section {
-    width: 1530px;
+    width: 1500px;
   }
 }
 
@@ -320,7 +319,7 @@ section {
 .collections {
   position: relative;
   text-align: left;
-  top: 5px;
+  top: 25px;
 }
 
   .collections #none {
@@ -369,7 +368,7 @@ section {
   }
 
   .collections #collection {
-    width: 170px;
+    width: 210px;
   }
 
   .collections #collections {
@@ -389,37 +388,43 @@ section {
         text-decoration: none;
       }
 
+      .collections #collections li a:hover {
+        text-decoration: underline;
+      }
+
 .metadata {
-  margin-top: 30px;
+  margin-top: 70px;
 }
 
   .metadata dl {
+    margin-top: 20px;
     font-size: 0.9em;
     color: #666;
   }
 
   .metadata dt {
     clear: left;
-    width: 65px;
+    width: 90px;
     text-align: right;
-    padding-right: 9px;
-    border-right: 1px solid #999;
+    padding: 5px 9px 5px 0;
+  }
+
+  .metadata .data {
+    border-left: 1px solid #999;
+    margin: 0;
+    padding: 5px 0 5px 9px;
   }
 
   .metadata dd {
     text-align: left;
     font-weight: bolder;
     border-left: 1px solid #bbb;
-    width: 140px;
-    padding: 0;
-    padding-left: 9px;
+    width: 170px;
     margin: 0;
   }
 
   .metadata dt, .metadata dd {
     float: left;
-    height: 22px;
-    padding-top: 5px;
   }
 
 form.addTag {
@@ -433,7 +438,7 @@ form.addTag {
 
   #tag, #collection, #searchTerms {
     float: left;
-    width: 200px;
+    width: 240px;
     outline: none;
     background: #ddd;
     border: 1px solid #888;
@@ -573,7 +578,7 @@ footer {
   border-top: 3px solid #888;
   text-align: left;
   padding-top: 0.5em;
-  margin-top: 3em;
+  margin-top: 2em;
   font-size: 0.8em;
   height: 20px;
 }
