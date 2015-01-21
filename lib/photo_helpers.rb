@@ -151,6 +151,8 @@ module PhotoHelpers
       %{<link rel="up" href="/tags" />}
     elsif collection
       %{<link rel="up" href="/collections" />}
+    else
+      %{<link rel="up" href="/" />}
     end
   end
 

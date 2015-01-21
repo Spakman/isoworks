@@ -345,8 +345,9 @@ describe PhotoHelpers do
         assert_equal(link, up_link(list: list, collection: "collection"))
       end
 
-      it "returns nil when no photo, tag or collection is passed" do
-        refute(up_link(list: list))
+      it "includes / when no photo, tag or collection is passed" do
+        link = %{<link rel="up" href="/" />}
+        assert_equal(link, up_link(list: list))
       end
     end
   end
