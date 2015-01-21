@@ -23,10 +23,15 @@ begin
     end
   end.parse!
 
-  ARGV.each do |filepath|
+  ARGV.each_with_index do |filepath, index|
     photo = Photo.new(filepath)
-    photo.tags = options[:tags] if options[:tags]
-    photo.collections = options[:collections] if options[:collections]
+    if options[:tags]
+      options[:tags].each { |tag| photo.add_tag(tag) }
+    end
+    if options[:collections]
+      options[:collections].each { |collection| photo.add_collection(collection) }
+    end
+    photo.add_tag("unprocessed")
   end
 
 rescue Exception => exception
